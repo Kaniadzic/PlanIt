@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">PlanIt</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="countries_array">
+        <item>Polska</item>
+        <item>Niemcy</item>
+        <item>Czechy</item>
+        <item>Australia</item>
+        <item>USA</item>
+        <item>Brazylia</item>
+        <item>Japonia</item>
+        <item>Zanzibar to nie kraj debilko</item>
+    </string-array>
+
 </resources>

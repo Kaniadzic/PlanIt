@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zaloguj sie śmieciu"
+        android:textAlignment="center"
+        android:textSize="30dp"/>
+
+    <EditText
+        android:id="@+id/et_email2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/et_password2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="zaloguj sie"/>
+
+    <Button
+        android:id="@+id/btn_forgotpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="zapomniales hasla?"/>
+
+    <TextView
+        android:id="@+id/tv_registeract"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nie masz konta? Załóż je tutaj!"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
+        android:textColor="#FF00FF"
+        android:textStyle="bold"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentDetails"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        class="com.example.planit.PasswordResetFragment"
+        tools:layout="@layout/fragment_password_reset" />
+
+</LinearLayout>
