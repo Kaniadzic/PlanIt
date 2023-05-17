@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,7 +28,8 @@ class PasswordResetFragment: Fragment()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var button: Button
+    lateinit var buttonSend: Button
+    lateinit var buttonClose: Button
     lateinit var email: EditText
     private lateinit var viewOfLayout: View
     private lateinit var mAuth: FirebaseAuth
@@ -45,16 +48,25 @@ class PasswordResetFragment: Fragment()
         // Inflate the layout for this fragment
         viewOfLayout = inflater!!.inflate(R.layout.fragment_password_reset, container, false)
 
-        button = viewOfLayout.findViewById(R.id.btn_reset)
+        buttonSend = viewOfLayout.findViewById(R.id.btn_reset)
+        buttonClose = viewOfLayout.findViewById(R.id.btn_close)
         email = viewOfLayout.findViewById(R.id.tv_emailreset)
         mAuth = FirebaseAuth.getInstance()
 
-        button.setOnClickListener(View.OnClickListener
+        buttonSend.setOnClickListener(View.OnClickListener
         {
             if (email.text.toString().isNotEmpty())
+            {
                 mAuth.sendPasswordResetEmail(email.text.toString())
+                Toast.makeText(activity, "Wysłano link resetujący na podany adres email!", Toast.LENGTH_SHORT).show()
+            }
             else
                 Toast.makeText(activity, "Wpisz email kretynie bez szkoły!", Toast.LENGTH_SHORT).show()
+        })
+
+        buttonClose.setOnClickListener(View.OnClickListener {
+            fragmentManager?.beginTransaction()?.remove(this)?.commit()
+            Log.i("DUPA", "dupa")
         })
 
         return viewOfLayout

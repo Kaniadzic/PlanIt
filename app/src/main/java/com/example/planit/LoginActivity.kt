@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.OnTouchListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.planit.databinding.ActivityLoginBinding
@@ -74,7 +75,8 @@ class LoginActivity : AppCompatActivity()
     fun showFragment(fragment: Fragment)
     {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentDetails, fragment, null)
+        fragmentTransaction.replace(R.id.fragmentDetails, fragment)
+        fragmentTransaction.addToBackStack("theFragment")
         fragmentTransaction.commit()
     }
 }
