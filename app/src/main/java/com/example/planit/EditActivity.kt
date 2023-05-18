@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import com.example.planit.databinding.ActivityEditBinding
@@ -22,6 +24,7 @@ class EditActivity : AppCompatActivity()
     private var PICK_IMAGE: Int = 200
     private lateinit var binding: ActivityEditBinding
     private lateinit var imageUrlDef: String
+    private var elementy: ArrayList<Int> = ArrayList<Int>()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -43,8 +46,8 @@ class EditActivity : AppCompatActivity()
         Log.i("XD", sharedPreference.getString("name", "DEFAULT").toString())
         Log.i("XD2", sharedPreference.getString("surname", "DEFAULT").toString())
 
-        binding.etName.setText(sharedPreference.getString("name", "DEFAULT").toString())
-        binding.etSurname.setText(sharedPreference.getString("surname", "DEFAULT").toString())
+        binding.etName.setText(sharedPreference.getString("name", "Imię").toString())
+        binding.etSurname.setText(sharedPreference.getString("surname", "Nazwisko").toString())
         binding.avatarView.loadImage(data = sharedPreference.getString("link", imageUrlDef))
 
         binding.btnSave.setOnClickListener(View.OnClickListener
@@ -61,13 +64,13 @@ class EditActivity : AppCompatActivity()
         binding.btnPasswordchange.setOnClickListener(View.OnClickListener
         {
             showFragment(PasswordChangeFragment(), R.id.fragmentPassChange)
+            hide()
         })
 
         binding.btnEmailchange.setOnClickListener(View.OnClickListener
         {
             showFragment(EmailChangeFragment(), R.id.fragmentMailChange)
-            var f = EmailChangeFragment()
-            Log.i("LOL", f.test.toString())
+            hide()
         })
     }
 
@@ -123,9 +126,33 @@ class EditActivity : AppCompatActivity()
         fragmentTransaction.commit()
     }
 
+    //sry nie miałem lepszego rozwiazania :(
     fun hide()
     {
+        binding.avatarView.visibility = View.GONE
+        binding.tvName.visibility = View.GONE
+        binding.etName.visibility = View.GONE
+        binding.tvSurname.visibility = View.GONE
+        binding.etSurname.visibility = View.GONE
+        binding.tvKraj.visibility = View.GONE
+        binding.countrySpinner.visibility = View.GONE
+        binding.btnPasswordchange.visibility = View.GONE
+        binding.btnEmailchange.visibility = View.GONE
+        binding.btnSave.visibility = View.GONE
+    }
 
+    fun show()
+    {
+        binding.avatarView.visibility = View.VISIBLE
+        binding.tvName.visibility = View.VISIBLE
+        binding.etName.visibility = View.VISIBLE
+        binding.tvSurname.visibility = View.VISIBLE
+        binding.etSurname.visibility = View.VISIBLE
+        binding.tvKraj.visibility = View.VISIBLE
+        binding.countrySpinner.visibility = View.VISIBLE
+        binding.btnPasswordchange.visibility = View.VISIBLE
+        binding.btnEmailchange.visibility = View.VISIBLE
+        binding.btnSave.visibility = View.VISIBLE
     }
 }
 

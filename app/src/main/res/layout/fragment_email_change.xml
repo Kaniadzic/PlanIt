@@ -32,21 +32,24 @@
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Stary email"/>
+            android:hint="Stary email"
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/tv_newmail"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nowy email"/>
+            android:hint="Nowy email"
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/tv_newmailrepeat"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Powtorz email"/>
+            android:hint="Powtorz email"
+            android:inputType="textEmailAddress"/>
 
         <Button
             android:id="@+id/btn_change"

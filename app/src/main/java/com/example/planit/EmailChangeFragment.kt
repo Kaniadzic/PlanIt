@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,16 +57,32 @@ class EmailChangeFragment : Fragment()
 
         buttonChange.setOnClickListener(View.OnClickListener
         {
-            if (newEmail.text.toString().equals(newEmailRep.text.toString()))
+            var oldMail: String = oldEmail.text.toString()
+            var newMail: String = newEmail.text.toString()
+            var newMailRep: String = newEmailRep.text.toString()
+
+            if (oldMail.isEmpty() && newMail.isEmpty() && newMailRep.isEmpty())
             {
-                mAuth.currentUser?.verifyBeforeUpdateEmail(newEmail.text.toString())
-                mAuth.currentUser?.updateEmail(newEmail.text.toString())
+                Toast.makeText(context, "Wypełnij wszystkie pola!", Toast.LENGTH_LONG).show()
+            }
+            else if (newMail != newMailRep)
+            {
+                Toast.makeText(context, "Maile się różnią", Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                mAuth.currentUser?.verifyBeforeUpdateEmail(newMail)
+                mAuth.currentUser?.updateEmail(newMail)
+                fragmentManager?.beginTransaction()?.remove(this)?.commit()
+                (activity as EditActivity).show()
+                Toast.makeText(context, "Mail został pomyślnie zmienione", Toast.LENGTH_LONG).show()
             }
         })
 
         buttonClose.setOnClickListener(View.OnClickListener
         {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
+            (activity as EditActivity).show()
             Log.i("DUPA", "dupa")
         })
 

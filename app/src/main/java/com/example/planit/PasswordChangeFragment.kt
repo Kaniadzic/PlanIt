@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,13 +56,33 @@ class PasswordChangeFragment : Fragment()
 
         buttonChange.setOnClickListener(View.OnClickListener
         {
-            if (newPassword.text.toString().equals(newPasswordRep.text.toString()))
-                mAuth.currentUser?.updatePassword(newPassword.text.toString())
+            var oldPass: String = oldPassword.text.toString()
+            var newPass: String = newPassword.text.toString()
+            var newPassRep: String = newPasswordRep.text.toString()
+
+            if (oldPass.isEmpty() && newPass.isEmpty() && newPassRep.isEmpty())
+            {
+                Toast.makeText(context, "Wypełnij wszystkie pola!", Toast.LENGTH_LONG).show()
+            }
+            else if (newPass != newPassRep)
+            {
+                Log.i("HASLO1", newPass)
+                Log.i("HASLO2", newPassRep)
+                Toast.makeText(context, "Hasła się różnią", Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                mAuth.currentUser?.updatePassword(newPass)
+                fragmentManager?.beginTransaction()?.remove(this)?.commit()
+                (activity as EditActivity).show()
+                Toast.makeText(context, "Hasło zostało pomyślnie zmienione", Toast.LENGTH_LONG).show()
+            }
         })
 
         buttonClose.setOnClickListener(View.OnClickListener
         {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
+            (activity as EditActivity).show()
             Log.i("DUPA", "dupa")
         })
 
