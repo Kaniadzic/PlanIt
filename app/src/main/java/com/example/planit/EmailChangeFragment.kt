@@ -8,9 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,22 +17,24 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [PasswordReset.newInstance] factory method to
+ * Use the [EmailChangeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PasswordResetFragment: Fragment()
+class EmailChangeFragment : Fragment()
 {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var buttonSend: Button
-    lateinit var buttonClose: Button
-    lateinit var email: EditText
     private lateinit var viewOfLayout: View
+    lateinit var buttonChange: Button
+    lateinit var buttonClose: Button
+    lateinit var oldEmail: EditText
+    lateinit var newEmail: EditText
+    lateinit var newEmailRep: EditText
     private lateinit var mAuth: FirebaseAuth
+    var test: Int = 2
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -46,25 +45,26 @@ class PasswordResetFragment: Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
         // Inflate the layout for this fragment
-        viewOfLayout = inflater.inflate(R.layout.fragment_password_reset, container, false)
-
-        buttonSend = viewOfLayout.findViewById(R.id.btn_reset)
-        buttonClose = viewOfLayout.findViewById(R.id.btn_close)
-        email = viewOfLayout.findViewById(R.id.tv_emailreset)
+        viewOfLayout = inflater.inflate(R.layout.fragment_email_change, container, false)
         mAuth = FirebaseAuth.getInstance()
 
-        buttonSend.setOnClickListener(View.OnClickListener
+        oldEmail = viewOfLayout.findViewById(R.id.tv_oldmail)
+        newEmail = viewOfLayout.findViewById(R.id.tv_newmail)
+        newEmailRep = viewOfLayout.findViewById(R.id.tv_newmailrepeat)
+        buttonChange = viewOfLayout.findViewById(R.id.btn_change)
+        buttonClose = viewOfLayout.findViewById(R.id.btn_close)
+
+        buttonChange.setOnClickListener(View.OnClickListener
         {
-            if (email.text.toString().isNotEmpty())
+            if (newEmail.text.toString().equals(newEmailRep.text.toString()))
             {
-                mAuth.sendPasswordResetEmail(email.text.toString())
-                Toast.makeText(activity, "Wysłano link resetujący na podany adres email!", Toast.LENGTH_SHORT).show()
+                mAuth.currentUser?.verifyBeforeUpdateEmail(newEmail.text.toString())
+                mAuth.currentUser?.updateEmail(newEmail.text.toString())
             }
-            else
-                Toast.makeText(activity, "Wpisz email kretynie bez szkoły!", Toast.LENGTH_SHORT).show()
         })
 
-        buttonClose.setOnClickListener(View.OnClickListener {
+        buttonClose.setOnClickListener(View.OnClickListener
+        {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
             Log.i("DUPA", "dupa")
         })
@@ -79,12 +79,12 @@ class PasswordResetFragment: Fragment()
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment TestFragment.
+         * @return A new instance of fragment EmailChangeFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            PasswordResetFragment().apply {
+            EmailChangeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".EditActivity"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="10dp">
+        android:layout_height="700dp"
+        android:padding="10dp"
+        android:visibility="visible">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ustawienia konta"
-            android:textSize="30dp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textSize="30dp" />
 
         <io.getstream.avatarview.AvatarView
-            android:layout_marginTop="20dp"
             android:id="@+id/avatar_view"
             android:layout_width="110dp"
             android:layout_height="110dp"
+            android:layout_below="@+id/title"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="147dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="144dp"
             app:avatarViewBorderColor="#FF0000"
             app:avatarViewBorderWidth="3dp"
             app:avatarViewIndicatorBorderColor="@color/white"
@@ -36,41 +40,50 @@
             app:avatarViewShape="circle" />
 
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Imię"/>
+            android:layout_below="@+id/avatar_view"
+            android:layout_marginTop="25dp"
+            android:text="Imię" />
 
         <EditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_below="@+id/tv_name"
             android:hint="Imię"/>
 
         <TextView
+            android:id="@+id/tv_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Nazwisko"/>
+            android:layout_below="@+id/et_name"
+            android:layout_marginTop="25dp"
+            android:text="Nazwisko" />
 
         <EditText
             android:id="@+id/et_surname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_below="@+id/tv_surname"
             android:hint="Nazwisko"/>
 
         <TextView
+            android:id="@+id/tv_kraj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_below="@+id/et_surname"
             android:text="Kraj"/>
 
         <Spinner
             android:id="@+id/country_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_kraj"
             android:layout_marginTop="10dp"/>
 
         <Button
@@ -78,6 +91,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/country_spinner"
             android:text="zmień hasło"/>
 
         <Button
@@ -85,6 +99,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_passwordchange"
             android:text="zmień email"/>
 
         <Button
@@ -92,8 +107,27 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_emailchange"
             android:text="zapisz ustawienia"/>
 
-    </LinearLayout>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentPassChange"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_centerInParent="true"
+            class="com.example.planit.PasswordChangeFragment"
+            tools:layout="@layout/fragment_password_change"
+            android:visibility="visible"/>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentMailChange"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_centerInParent="true"
+            class="com.example.planit.EmailChangeFragment"
+            tools:layout="@layout/fragment_email_change"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
 
 </ScrollView>
