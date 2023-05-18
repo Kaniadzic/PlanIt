@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 
 // TODO: Rename parameter arguments, choose names that match
@@ -59,6 +60,7 @@ class PasswordChangeFragment : Fragment()
             var oldPass: String = oldPassword.text.toString()
             var newPass: String = newPassword.text.toString()
             var newPassRep: String = newPasswordRep.text.toString()
+            var credential = mAuth.currentUser?.email?.let { it1 -> EmailAuthProvider.getCredential(it1, oldPass) }
 
             if (oldPass.isEmpty() && newPass.isEmpty() && newPassRep.isEmpty())
             {
@@ -72,10 +74,33 @@ class PasswordChangeFragment : Fragment()
             }
             else
             {
-                mAuth.currentUser?.updatePassword(newPass)
-                fragmentManager?.beginTransaction()?.remove(this)?.commit()
-                (activity as EditActivity).show()
-                Toast.makeText(context, "Hasło zostało pomyślnie zmienione", Toast.LENGTH_LONG).show()
+                if (credential != null)
+                {
+                    mAuth.currentUser?.reauthenticate(credential)?.addOnCompleteListener{ task ->
+                        if (task.isSuccessful)
+                        {
+                            mAuth.currentUser!!.updatePassword(newPass).addOnCompleteListener { task ->
+
+                                if (task.isSuccessful)
+                                {
+                                    Toast.makeText(context, "Hasło zostało zmienione!", Toast.LENGTH_SHORT).show()
+                                    fragmentManager?.beginTransaction()?.remove(this)?.commit()
+                                    (activity as EditActivity).show()
+                                }
+                                else
+                                {
+                                    Toast.makeText(context, "Zle haslo debilu!", Toast.LENGTH_SHORT).show()
+                                    Log.w("ERROR", task.exception)
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "FAIL!", Toast.LENGTH_SHORT).show()
+                            Log.w("Zle haslo debilu", task.exception)
+                        }
+                    }
+                }
             }
         })
 
