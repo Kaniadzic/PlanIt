@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.CalendarView
 import com.example.planit.databinding.ActivityHomepageBinding
 import com.example.planit.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -50,5 +51,16 @@ class HomepageActivity : AppCompatActivity()
         binding.btnEdit.setOnClickListener(View.OnClickListener {
             startActivity(Intent(applicationContext, EditActivity::class.java))
         })
+
+        binding.calendar.setOnDateChangeListener { calendarView, y, m, d ->
+            Log.i("DATA", y.toString())
+            Log.i("DATA2", (m + 1).toString())
+            Log.i("DATA3", d.toString())
+            intent = Intent(applicationContext, CreatePostActivity::class.java)
+            intent.putExtra("YEAR", y)
+            intent.putExtra("MONTH", m)
+            intent.putExtra("DAY", d)
+            startActivity(intent)
+        }
     }
 }
