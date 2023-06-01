@@ -13,6 +13,8 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.planit.databinding.ActivityEditBinding
 import com.example.planit.databinding.ActivityMainBinding
@@ -25,11 +27,11 @@ import io.getstream.avatarview.coil.loadImage
 
 class EditActivity : AppCompatActivity()
 {
-    private var PICK_IMAGE: Int = 200
     private lateinit var binding: ActivityEditBinding
     private lateinit var sharedPreference: SharedPreferences
     private lateinit var imageUrlDef: String
     private lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -41,44 +43,26 @@ class EditActivity : AppCompatActivity()
         setSpinner(binding.countrySpinner)
 
         mAuth = FirebaseAuth.getInstance()
-
-        //zapisywanie danych uzytkownika przez firebase
-
-        var profileUpdates = userProfileChangeRequest {
-            displayName = "Wojtek Schafter"
-            photoUri = Uri.parse(imageUrlDef)
-        }
-
-        mAuth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener{ task ->
-            if (task.isSuccessful)
-            {
-                Log.d("TAG", "User profile updated.")
-            }
-        }
-
-        //---------------------------
-
-        binding.avatarView.setOnClickListener(View.OnClickListener {
-            Log.i("LOL", "lol")
-            imageChooser()
-        })
+        binding.etName.setText(mAuth.currentUser?.displayName)
+        binding.avatarView.loadImage(data = mAuth.currentUser?.photoUrl)
 
         imageUrlDef = "https://img1.ak.crunchyroll.com/i/spire2/0fdcdc55d10ccee7f745c348124c193f1655144936_large.jpg"
 
-        sharedPreference = PreferenceManager.getDefaultSharedPreferences(this.baseContext)
-        Log.i("XD", sharedPreference.getString("name", "DEFAULT").toString())
-        Log.i("XD2", sharedPreference.getString("surname", "DEFAULT").toString())
-        Log.i("XD3", sharedPreference.getInt("country", 0).toString())
-        Log.i("XD3", sharedPreference.getString("link", imageUrlDef).toString())
+        //zapisywanie danych uzytkownika przez firebase
+        //---------------------------
 
-        binding.etName.setText(sharedPreference.getString("name", "Imię").toString())
-        binding.etSurname.setText(sharedPreference.getString("surname", "Nazwisko").toString())
-        binding.countrySpinner.setSelection(sharedPreference.getInt("country", 0))
-        binding.avatarView.loadImage(data = sharedPreference.getString("link", imageUrlDef))
+        binding.avatarView.setOnClickListener(View.OnClickListener
+        {
+            intent = Intent(applicationContext, PickPhotoActivity::class.java)
+            startActivity(intent)
+            imageUrlDef = intent.getStringExtra("LINKPHOTO").toString()
+            binding.avatarView.loadImage(imageUrlDef)
+            Log.i("PHOTO", intent.getStringExtra("LINKPHOTO").toString())
+        })
 
         binding.btnSave.setOnClickListener(View.OnClickListener
         {
-            rememberMe()
+            saveProfile()
         })
 
         binding.btnPasswordchange.setOnClickListener(View.OnClickListener
@@ -105,34 +89,6 @@ class EditActivity : AppCompatActivity()
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             spinner.adapter = adapter
-        }
-    }
-
-    fun imageChooser()
-    {
-        val intent = Intent()
-
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-
-        startActivityForResult(Intent.createChooser(intent, "Select picutre"), PICK_IMAGE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
-    {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK)
-        {
-            if (requestCode == PICK_IMAGE)
-            {
-                if (data != null)
-                {
-                    imageUrlDef = data.data.toString()
-                    Log.i("URL", imageUrlDef)
-                    binding.avatarView.loadImage(data = imageUrlDef)
-                }
-            }
         }
     }
 
@@ -174,15 +130,20 @@ class EditActivity : AppCompatActivity()
         binding.btnEmailchange.visibility = View.VISIBLE
         binding.btnSave.visibility = View.VISIBLE
     }
-
-    fun rememberMe()
+    fun saveProfile()
     {
-        val editor = sharedPreference.edit()
-        editor.putString("name", binding.etName.text.toString())
-        editor.putString("surname", binding.etSurname.text.toString())
-        editor.putInt("country", binding.countrySpinner.selectedItemPosition)
-        editor.putString("link", imageUrlDef)
-        editor.commit()
+        var profileUpdates = userProfileChangeRequest {
+            displayName = binding.etName.text.toString()
+            photoUri = Uri.parse(imageUrlDef)
+        }
+
+        mAuth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener{ task ->
+            if (task.isSuccessful)
+            {
+                Log.d("TAG", "User profile updated.")
+            }
+        }
+
         finish()
     }
 }
