@@ -16,6 +16,7 @@ class LoginActivity : AppCompatActivity()
 {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var mAuth: FirebaseAuth
+    private val utils = Utilities()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -44,7 +45,7 @@ class LoginActivity : AppCompatActivity()
             }
             else
             {
-                Toast.makeText(this, "Wypełnij wszystkie pola ośle!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             }
         })
 
@@ -60,14 +61,18 @@ class LoginActivity : AppCompatActivity()
                 task -> if (task.isSuccessful)
         {
             Log.d("TAG", "signInWithCustomToken:success")
-            Toast.makeText(this, "Zalogowano pomyślnie.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
             startActivity(Intent(applicationContext, HomepageActivity::class.java))
             finish()
+        }
+        else if (!utils.validateEmail(email))
+        {
+            Toast.makeText(this, R.string.invalid_email, Toast.LENGTH_SHORT).show()
         }
         else
         {
             Log.w("TAG", "signInWithCustomToken:failure", task.exception)
-            Toast.makeText(this, "Niepoprawne hasło lub adres email!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invalid_data, Toast.LENGTH_SHORT).show();
         }
         })
     }

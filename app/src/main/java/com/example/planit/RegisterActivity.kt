@@ -15,6 +15,7 @@ class RegisterActivity : AppCompatActivity()
 {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var mAuth: FirebaseAuth
+    private val utils = Utilities()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -40,15 +41,19 @@ class RegisterActivity : AppCompatActivity()
 
             if (email.isEmpty() && password.isEmpty())
             {
-                Toast.makeText(this, "Wypełnij wszystkie pola ośle!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.missing_inputs, Toast.LENGTH_SHORT).show();
             }
             else if (password.length < 8)
             {
-                Toast.makeText(this, "Hasło powinno zawierać minimum 8 znaków", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.password_too_short, Toast.LENGTH_SHORT).show();
             }
             else if (password != passwordRepeat)
             {
-                Toast.makeText(this, "Proszę powtórzyć hasło", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.passwords_not_matching, Toast.LENGTH_SHORT).show()
+            }
+            else if (!utils.validateEmail(email))
+            {
+                Toast.makeText(this, R.string.invalid_email, Toast.LENGTH_SHORT).show()
             }
             else
             {
@@ -64,12 +69,12 @@ class RegisterActivity : AppCompatActivity()
                 task -> if (task.isSuccessful)
         {
             Log.d("TAG", "signInWithCustomToken:success")
-            Toast.makeText(this, "Zarejestrowano pomyślnie!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show();
         }
         else
         {
             Log.w("TAG", "signInWithCustomToken:failure", task.exception)
-            Toast.makeText(this, "Rejestracja nieudana!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.register_failure, Toast.LENGTH_SHORT).show();
         }
         })
     }

@@ -24,9 +24,20 @@
     <string name="btn_register">Zarejestruj się</string>
     <string name="btn_account_exists">Masz już konto? Zaloguj się!</string>
 
+    <!-- Walidacja email, hasła etc. -->
+    <string name="missing_inputs">Proszę uzupełnić wszystkie pola</string>
+    <string name="password_too_short">Proszę podać hasło o długości min. 8 znaków</string>
+    <string name="passwords_not_matching">Proszę powtórzyć hasło</string>
+    <string name="invalid_email">Proszę podać poprawny adres email</string>
+    <string name="invalid_data">Niepoprawne hasło lub adres email</string>
+    <string name="login_success">Zalogowano pomyślnie</string>
+    <string name="register_success">Zarejestrowano pomyślnie</string>
+    <string name="register_failure">Wystąpił błąd podczas rejestracji</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Edycja konta użytkownika -->
     <string-array name="countries_array">
         <item>Polska</item>
         <item>Niemcy</item>
