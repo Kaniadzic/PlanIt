@@ -36,6 +36,7 @@ class RegisterActivity : AppCompatActivity()
 
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
+            val passwordRepeat = binding.etPasswordRepeat.text.toString()
 
             if (email.isEmpty() && password.isEmpty())
             {
@@ -44,6 +45,10 @@ class RegisterActivity : AppCompatActivity()
             else if (password.length < 8)
             {
                 Toast.makeText(this, "Hasło powinno zawierać minimum 8 znaków", Toast.LENGTH_SHORT).show();
+            }
+            else if (password != passwordRepeat)
+            {
+                Toast.makeText(this, "Proszę powtórzyć hasło", Toast.LENGTH_SHORT).show()
             }
             else
             {

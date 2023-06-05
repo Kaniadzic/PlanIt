@@ -18,6 +18,11 @@
     <string name="reset_password_text">Podaj adres email konta, którego hasło chcesz resetować</string>
 
     <!-- Panel rejestracji -->
+    <string name="hint_register_email">Email</string>
+    <string name="hint_register_password">Hasło</string>
+    <string name="hint_register_password_repeat">Powtórz hasło</string>
+    <string name="btn_register">Zarejestruj się</string>
+    <string name="btn_account_exists">Masz już konto? Zaloguj się!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
