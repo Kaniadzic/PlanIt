@@ -28,39 +28,56 @@ class HomepageActivity : AppCompatActivity()
 
         mAuth = FirebaseAuth.getInstance()
 
-        binding.lol1.text = mAuth.currentUser?.email.toString()
+//        binding.lol1.text = mAuth.currentUser?.email.toString()
+//
+//        if (!mAuth.currentUser?.isEmailVerified!!)
+//        {
+//            mAuth.currentUser?.sendEmailVerification()
+//            binding.lol2.text = "Potwierdż adres email"
+//        }
+//        else
+//        {
+//            binding.lol2.text = "Adres email potwierdzony"
+//        }
+//
+//        Log.i("TAG", mAuth.currentUser?.displayName.toString())
 
-        if (!mAuth.currentUser?.isEmailVerified!!)
-        {
-            mAuth.currentUser?.sendEmailVerification()
-            binding.lol2.text = "Potwierdż adres email"
-        }
-        else
-        {
-            binding.lol2.text = "Adres email potwierdzony"
-        }
 
-        Log.i("TAG", mAuth.currentUser?.displayName.toString())
-
-        binding.btnSignOut.setOnClickListener(View.OnClickListener {
+        binding.btnMenuLogout.setOnClickListener(View.OnClickListener {
             mAuth.signOut()
             finish()
-            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            startActivity(Intent(applicationContext, MainActivity::class.java))
         })
 
-        binding.btnEdit.setOnClickListener(View.OnClickListener {
+        binding.btnMenuHome.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(applicationContext, HomepageActivity::class.java))
+        })
+
+        binding.btnMenuCalendar.setOnClickListener(View.OnClickListener {
+
+        })
+
+        binding.btnMenuClock.setOnClickListener(View.OnClickListener {
+
+        })
+
+        binding.btnMenuSettings.setOnClickListener(View.OnClickListener {
             startActivity(Intent(applicationContext, EditActivity::class.java))
         })
-
-        binding.calendar.setOnDateChangeListener { calendarView, y, m, d ->
-            Log.i("DATA", y.toString())
-            Log.i("DATA2", (m + 1).toString())
-            Log.i("DATA3", d.toString())
-            intent = Intent(applicationContext, CreatePostActivity::class.java)
-            intent.putExtra("YEAR", y)
-            intent.putExtra("MONTH", m)
-            intent.putExtra("DAY", d)
-            startActivity(intent)
-        }
+//
+//        binding.btnEdit.setOnClickListener(View.OnClickListener {
+//            startActivity(Intent(applicationContext, EditActivity::class.java))
+//        })
+//
+//        binding.calendar.setOnDateChangeListener { calendarView, y, m, d ->
+//            Log.i("DATA", y.toString())
+//            Log.i("DATA2", (m + 1).toString())
+//            Log.i("DATA3", d.toString())
+//            intent = Intent(applicationContext, CreatePostActivity::class.java)
+//            intent.putExtra("YEAR", y)
+//            intent.putExtra("MONTH", m)
+//            intent.putExtra("DAY", d)
+//            startActivity(intent)
+//        }
     }
 }

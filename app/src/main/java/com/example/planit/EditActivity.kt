@@ -76,6 +76,28 @@ class EditActivity : AppCompatActivity()
             showFragment(EmailChangeFragment(), R.id.fragmentMailChange)
             hide()
         })
+
+        binding.btnMenuLogout.setOnClickListener(View.OnClickListener {
+            mAuth.signOut()
+            finish()
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+        })
+
+        binding.btnMenuHome.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(applicationContext, HomepageActivity::class.java))
+        })
+
+        binding.btnMenuCalendar.setOnClickListener(View.OnClickListener {
+
+        })
+
+        binding.btnMenuClock.setOnClickListener(View.OnClickListener {
+
+        })
+
+        binding.btnMenuSettings.setOnClickListener(View.OnClickListener {
+            startActivity(Intent(applicationContext, EditActivity::class.java))
+        })
     }
 
     fun setSpinner(spinner: Spinner)
