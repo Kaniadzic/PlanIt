@@ -1,0 +1,31 @@
+{
+	"workspaces": [
+		{
+			"id": 1,
+			"name": "nazwa",
+			"creation_date": "23-12-2022",
+			"deletion_date": "00-00-0000",
+			"creator_id": "v1qklsOhkRfVimZijYDCKvtGoiV2",
+			"users": [
+				{
+					"user_id": "v1qklsOhkRfVimZijYDCKvtGoiV2",
+					"join_date": "23-12-2022",
+					"leave_data": "00-00-0000",
+					"rank": "admin"
+				},
+				{
+					"user_id": "IASYSz5ciufQIIIPsSzNQLtyV002",
+					"join_date": "05-01-2023",
+					"leave_data": "00-00-0000",
+					"rank": "moderator"
+				},
+				{
+					"user_id": "CRr2QAxOm9W7loerZXfkuDfsGdJ2",
+					"join_date": "05-01-2023",
+					"leave_data": "15-01-2023",
+					"rank": "user"
+				}
+			]
+		}
+	]
+}

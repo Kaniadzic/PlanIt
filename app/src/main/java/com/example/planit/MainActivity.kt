@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvCostam.setOnClickListener(View.OnClickListener {
+        binding.btnBegin.setOnClickListener(View.OnClickListener {
             startActivity(Intent(applicationContext, LoginActivity::class.java))
             finish()
         })
