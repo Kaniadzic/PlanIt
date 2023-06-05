@@ -1,9 +1,23 @@
 <resources>
     <string name="app_name">PlanIt</string>
 
+    <!-- Panel powitalny -->
     <string name="welcome_text">Plan ahead</string>
     <string name="begin_button">Zaczynamy!</string>
 
+    <!-- Panel logowania -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Hasło</string>
+    <string name="btn_forgotten_password">Resetuj hasło</string>
+    <string name="btn_login">Zaloguj się</string>
+    <string name="btn_new_account">Nie masz konta? Załóż je!</string>
+
+    <!-- Reset Hasła -->
+    <string name="btn_reset_password">Resetuj hasło</string>
+    <string name="reset_password_email">Email</string>
+    <string name="reset_password_text">Podaj adres email konta, którego hasło chcesz resetować</string>
+
+    <!-- Panel rejestracji -->
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

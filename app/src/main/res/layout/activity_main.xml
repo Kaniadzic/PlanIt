@@ -19,21 +19,21 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="@drawable/planit_black_gradient"
+        android:background="@drawable/planit_purple_gradient"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/planit_black_gradient"
+        android:background="@drawable/planit_purple_gradient"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/planit_black_gradient"
+        android:background="@drawable/planit_purple_gradient"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button

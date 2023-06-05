@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity()
             }
         })
 
-        binding.btnForgotpass.setOnClickListener(View.OnClickListener {
+        binding.btnForgottenPassword.setOnClickListener(View.OnClickListener {
             showFragment(PasswordResetFragment())
         })
     }
