@@ -91,6 +91,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_kraj" />
 
+        <TextView
+            android:id="@+id/tv_rola"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:text="Rola w zespole"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country_spinner" />
+
+        <Spinner
+            android:id="@+id/role_spinner"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rola" />
+
         <Button
             android:id="@+id/btn_passwordchange"
             android:layout_width="168dp"
@@ -99,7 +116,7 @@
             android:layout_marginTop="16dp"
             android:text="zmień hasło"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/country_spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/role_spinner" />
 
         <Button
             android:id="@+id/btn_emailchange"
@@ -109,7 +126,7 @@
             android:layout_marginTop="16dp"
             android:text="zmień email"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/country_spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/role_spinner" />
 
         <Button
             android:id="@+id/btn_save"
