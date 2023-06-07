@@ -47,7 +47,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText

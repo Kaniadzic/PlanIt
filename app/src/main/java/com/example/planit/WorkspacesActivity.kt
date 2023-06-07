@@ -41,7 +41,7 @@ class WorkspacesActivity : AppCompatActivity() {
         })
 
         binding.btnAddWorkspace.setOnClickListener(View.OnClickListener {
-
+            startActivity(Intent(applicationContext, AddWorkspaceActivity::class.java))
         })
     }
 }

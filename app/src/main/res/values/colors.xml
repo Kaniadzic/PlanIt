@@ -9,4 +9,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="planit_yellow">#FFF9D251</color>
     <color name="planit_purple">#FF361C3F</color>
+
+    <color name="workspace_white">#FFFFFFFF</color>
+    <color name="workspace_black">#FF000000</color>
+    <color name="workspace_red">#FFFF0000</color>
+    <color name="workspace_blue">#FF0000FF</color>
+    <color name="workspace_green">#FF00FF00</color>
+    <color name="workspace_yellow">#FFFFFF00</color>
+    <color name="workspace_purple">#FF800080</color>
+    <color name="workspace_orange">#FFFFAA00</color>
+    <color name="workspace_brown">#271502</color>
+    <color name="workspace_gray">#FF808080</color>
 </resources>

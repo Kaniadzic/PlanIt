@@ -36,6 +36,16 @@
 
     <!-- Workspaces -->
     <string name="workspaces_title">Twoje projekty</string>
+    <string name="add_workspace">Utwórz projekt</string>
+    <string name="workspace_type">Przeznaczenie</string>
+    <string name="workspace_create">Utwórz projekt</string>
+    <string-array name="workspace_types">
+        <item>Biznes</item>
+        <item>Edukacja</item>
+        <item>Hobby</item>
+        <item>Działalność charytatywna</item>
+    </string-array>
+
 
     <!-- Edycja konta użytkownika -->
     <string-array name="countries_array">
