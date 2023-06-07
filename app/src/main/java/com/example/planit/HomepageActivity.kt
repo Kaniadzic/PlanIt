@@ -49,4 +49,7 @@ class HomepageActivity : AppCompatActivity()
         })
     }
 
+    fun showTodayTasks() {
+//        @TODO: wyświetlić bieżące zadania
+    }
 }

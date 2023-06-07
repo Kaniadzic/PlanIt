@@ -7,23 +7,41 @@
     android:layout_height="match_parent"
     tools:context=".HomepageActivity">
 
-    <TextView
-        android:id="@+id/lol1"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="crista ronaldo sui"
-        android:textSize="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:scaleType="centerCrop"
+        android:src="@drawable/plan0" />
 
     <TextView
-        android:id="@+id/lol2"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_welcome"
+        android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:text="simple as that bro"
-        android:textSize="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/lol1"
-        tools:layout_editor_absoluteX="0dp" />
+        android:text="Cześć!"
+        android:textColor="@color/black"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginTop="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/tv_tasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Oto zadania na dzisiaj:"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
 
     <!-- Menu -->
     <androidx.constraintlayout.widget.ConstraintLayout
