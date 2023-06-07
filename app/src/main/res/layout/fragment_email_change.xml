@@ -7,8 +7,6 @@
     android:layout_gravity="center"
     tools:context=".PasswordResetFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <Button
         android:id="@+id/btn_close"
         android:layout_width="40dp"

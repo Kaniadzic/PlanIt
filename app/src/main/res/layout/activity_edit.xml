@@ -170,7 +170,6 @@
         android:layout_height="72dp"
         android:background="@color/planit_purple"
         android:orientation="horizontal"
-        android:text="@string/hello_blank_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -211,21 +210,8 @@
             android:src="@drawable/home_black"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btn_menu_clock"
-            android:layout_width="70dp"
-            android:layout_height="64dp"
-            android:backgroundTint="@color/planit_yellow"
-            android:scaleType="centerCrop"
-            android:src="@drawable/clock_black"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_menu_logout"
-            app:layout_constraintStart_toEndOf="@+id/btn_menu_home"
+            app:layout_constraintStart_toEndOf="@+id/btn_menu_calendar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton

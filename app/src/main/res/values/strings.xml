@@ -34,8 +34,8 @@
     <string name="register_success">Zarejestrowano pomyślnie</string>
     <string name="register_failure">Wystąpił błąd podczas rejestracji</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Workspaces -->
+    <string name="workspaces_title">Twoje projekty</string>
 
     <!-- Edycja konta użytkownika -->
     <string-array name="countries_array">

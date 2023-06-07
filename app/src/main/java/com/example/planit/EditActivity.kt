@@ -78,11 +78,7 @@ class EditActivity : AppCompatActivity()
         })
 
         binding.btnMenuCalendar.setOnClickListener(View.OnClickListener {
-
-        })
-
-        binding.btnMenuClock.setOnClickListener(View.OnClickListener {
-
+            startActivity(Intent(applicationContext, WorkspacesActivity::class.java))
         })
 
         binding.btnMenuSettings.setOnClickListener(View.OnClickListener {
