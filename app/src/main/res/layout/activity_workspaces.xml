@@ -21,15 +21,26 @@
 
     <Button
         android:id="@+id/btn_add_workspace"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="16dp"
-        android:textColor="@color/black"
         android:backgroundTint="@color/planit_yellow"
+        android:text="Utwórz projekt"
+        android:textColor="@color/black"
         android:textSize="18dp"
-        android:text="+"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_workspaces_title" />
+
+    <ListView
+        android:id="@+id/lv_workspaces"
+        android:layout_width="wrap_content"
+        android:layout_height="500dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_add_workspace" />
 
     <!-- Menu -->
     <androidx.constraintlayout.widget.ConstraintLayout
