@@ -19,11 +19,11 @@ class WorkspacesListAdapter (
 
         val titleText = rowView.findViewById(R.id.name) as TextView
         val subtitleText = rowView.findViewById(R.id.type) as TextView
-        val id = rowView.findViewById(R.id.id) as TextView
+//        val id = rowView.findViewById(R.id.id) as TextView
 
         titleText.text = name[position]
         subtitleText.text = type[position]
-        id.text = workspaceIDs[position]
+//        id.text = workspaceIDs[position]
 
         return rowView
     }

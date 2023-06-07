@@ -87,7 +87,17 @@ class WorkspacesActivity : AppCompatActivity() {
 
                 binding.lvWorkspaces.setOnItemClickListener(){adapterView, view, position, id ->
                     val itemAtPos = adapterView.getItemAtPosition(position)
-                    Toast.makeText(this, "$itemAtPos", Toast.LENGTH_LONG).show()
+                    val ws = getWorkspaceByID(workspacesList, itemAtPos.toString())
+                    val intention = Intent(applicationContext, WorkspaceDetailsActivity::class.java)
+
+                    // tak jest prościej xD
+                    intention.putExtra("ID", itemAtPos.toString())
+                    intention.putExtra("Name", ws?.name)
+                    intention.putExtra("CreationDate", ws?.creationDate)
+                    intention.putExtra("CreatorID", ws?.creatorId)
+                    intention.putExtra("Type", ws?.type)
+
+                    startActivity(intention)
                 }
 
                 Toast.makeText(this, "Sukces!", Toast.LENGTH_SHORT).show()
@@ -95,6 +105,14 @@ class WorkspacesActivity : AppCompatActivity() {
             .addOnFailureListener{
                 Toast.makeText(this, "Jebać ruch!!", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    fun getWorkspaceByID(list: List<Workspace?>, id: String): Workspace? {
+        val ws = list.find {
+            workspace ->  workspace?.id.equals(id)
+        }
+
+        return ws
     }
 }
 
