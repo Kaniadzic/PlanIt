@@ -67,7 +67,9 @@ class WorkspacesActivity : AppCompatActivity() {
                 dataSnapshot = it
 
                 dataSnapshot.children.forEach{
-                    workspacesList.add(it.getValue(Workspace::class.java))
+                    if (it.getValue(Workspace::class.java)?.creatorId.toString() == userID) {
+                        workspacesList.add(it.getValue(Workspace::class.java))
+                    }
                 }
 
                 var workspacesNames = arrayOf<String?>()
