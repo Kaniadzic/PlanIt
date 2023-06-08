@@ -3,7 +3,6 @@ package com.example.planit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.planit.databinding.ActivityCreatePostBinding
-import com.example.planit.databinding.ActivityHomepageBinding
 
 class CreatePostActivity : AppCompatActivity()
 {

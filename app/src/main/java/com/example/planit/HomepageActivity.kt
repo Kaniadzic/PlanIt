@@ -4,14 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.CalendarView
-import androidx.fragment.app.Fragment
 import com.example.planit.databinding.ActivityHomepageBinding
-import com.example.planit.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class HomepageActivity : AppCompatActivity()
 {

@@ -1,7 +1,6 @@
 package com.example.planit
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ class AddUserFragment : Fragment() {
     lateinit var buttonAdd: Button
     lateinit var buttonClose: Button
     lateinit var email: EditText
+    private val utils = Utilities()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -38,7 +38,7 @@ class AddUserFragment : Fragment() {
         buttonAdd.setOnClickListener(
             View.OnClickListener
         {
-            if (email.text.toString().isNotEmpty())
+            if (email.text.toString().isNotEmpty() && !utils.validateEmail(email.text.toString()))
             {
                 Toast.makeText(activity, "Dodanie usera do projektu", Toast.LENGTH_SHORT).show()
             }

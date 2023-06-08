@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.View.OnTouchListener
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.planit.databinding.ActivityLoginBinding

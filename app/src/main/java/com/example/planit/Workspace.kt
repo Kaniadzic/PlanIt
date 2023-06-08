@@ -1,7 +1,4 @@
 package com.example.planit
-
-import java.util.Date
-
 data class Workspace (
     val id: String? = null,
     val name: String? = null,

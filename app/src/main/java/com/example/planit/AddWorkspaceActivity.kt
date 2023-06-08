@@ -8,15 +8,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.planit.databinding.ActivityAddWorkspaceBinding
-import com.example.planit.databinding.ActivityHomepageBinding
-import com.example.planit.databinding.ActivityWorkspacesBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.Date
 
 class AddWorkspaceActivity : AppCompatActivity() {
