@@ -35,8 +35,6 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
             intent.getStringExtra("Type")
         )
 
-        Log.d("Workspace", workspaceData.toString())
-
         binding.btnMenuLogout.setOnClickListener(View.OnClickListener {
             mAuth.signOut()
             finish()
@@ -98,6 +96,10 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
 
     fun showFragment(fragment: Fragment)
     {
+        val fragmentBundle = Bundle()
+        fragmentBundle.putString("workspaceID", workspaceData.id)
+        fragment.arguments = fragmentBundle
+
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragmentAddUser, fragment)
         fragmentTransaction.commit()

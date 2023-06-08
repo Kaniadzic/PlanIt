@@ -74,9 +74,7 @@ class AddWorkspaceActivity : AppCompatActivity() {
                 binding.etName.text.toString(),
                 currentDate,
                 FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                binding.typeSpinner.selectedItem.toString(),
-                "",
-                ""
+                binding.typeSpinner.selectedItem.toString()
             )
 
             databaseReference
