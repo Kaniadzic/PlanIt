@@ -1,5 +1,6 @@
 package com.example.planit
 
+import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.Data
 import android.util.Log
@@ -26,19 +27,20 @@ class WorkspaceUsersFragment : Fragment() {
     {
         super.onCreate(savedInstanceState)
 
-        showUsers()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         viewOfLayout = inflater.inflate(R.layout.fragment_workspace_users, container, false)
-
+        mAuth = FirebaseAuth.getInstance()
         buttonClose = viewOfLayout.findViewById(R.id.btn_close)
 
         buttonClose.setOnClickListener(View.OnClickListener {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
         })
 
+        showUsers()
         return viewOfLayout
     }
 
@@ -46,28 +48,13 @@ class WorkspaceUsersFragment : Fragment() {
         var dataSnapshot: DataSnapshot
         var dataSnapshotUsers: DataSnapshot
         val workspaceID = arguments?.get("workspaceID").toString()
-
-//        databaseReference = FirebaseDatabase
-//            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
-//            .getReference("Users")
-//
-//        // userzy
-//        databaseReference
-//            .get()
-//            .addOnSuccessListener {
-//                dataSnapshotUsers = it
-//
-//                for (d in dataSnapshotUsers.children) {
-//                    var dupa = d.getValue(User::class.java)?.email
-//                    Log.e("u e m a i l", dupa.toString())
-//                }
-//            }
+        val creatorID = arguments?.get("creatorID").toString()
 
         databaseReference = FirebaseDatabase
             .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("Workspaces")
 
-        val users: ArrayList<String> = ArrayList<String>()
+        val users: ArrayList<String?> = ArrayList<String?>()
 
         // maile w workspace
         databaseReference
@@ -81,8 +68,20 @@ class WorkspaceUsersFragment : Fragment() {
                     var test = d.getValue(WorkspaceUser::class.java)?.email
                     users.add(test.toString())
                 }
+
+                if (creatorID == mAuth.currentUser?.uid) {
+                    Log.i("Role", "To je właściciel")
+
+                    viewOfLayout.findViewById<ListView>(R.id.lv_users).setOnItemClickListener(){
+                        adapterView, view, position, id ->
+                        val itemAtPos = adapterView.getItemAtPosition(position)
+
+                        Log.e("R E M O V E", "Remove from ${workspaceID} user ${itemAtPos}")
+                    }
+                }
+
+                val usersListAdapter = UsersListAdapter(requireActivity(), users)
+                viewOfLayout.findViewById<ListView>(R.id.lv_users).adapter = usersListAdapter
             }
-
-
     }
 }

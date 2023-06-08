@@ -84,6 +84,7 @@ class WorkspacesActivity : AppCompatActivity() {
                     workspacesIDs = workspacesIDs.plus(it?.id)
                 }
 
+                /////////////////////////////////
                 val workspacesListAdapter = WorkspacesListAdapter(this, workspacesNames, workspacesTypes, workspacesIDs)
                 binding.lvWorkspaces.adapter = workspacesListAdapter
 

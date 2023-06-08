@@ -95,6 +95,7 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
     {
         val fragmentBundle = Bundle()
         fragmentBundle.putString("workspaceID", workspaceData.id)
+        fragmentBundle.putString("creatorID", workspaceData.creatorId)
         fragment.arguments = fragmentBundle
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
