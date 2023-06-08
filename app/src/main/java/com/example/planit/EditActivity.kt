@@ -170,8 +170,6 @@ class EditActivity : AppCompatActivity()
     {
         val user = User(name, surname, photoUrl, countryCode, countryRole)
 
-        Log.i("DZIALA2", name)
-        Log.i("DZIALA3", countryCode.toString())
 
         databaseReference.child(uid).setValue(user).addOnSuccessListener {
             Log.i("LOGI", "SZMATA")

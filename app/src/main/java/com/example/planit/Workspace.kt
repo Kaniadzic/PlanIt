@@ -7,5 +7,7 @@ data class Workspace (
     val name: String? = null,
     val creationDate: String? = null,
     val creatorId: String? = null,
-    val type: String? = null
+    val type: String? = null,
+    val admins: String? = null,
+    val users: String? = null
 )

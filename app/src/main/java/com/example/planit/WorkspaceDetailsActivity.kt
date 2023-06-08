@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.planit.databinding.ActivityWorkspaceDetailsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -75,11 +76,30 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
 
         })
 
+        binding.btnWorkspaceTasks.setOnClickListener(View.OnClickListener {
+
+        })
+
+        binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
+
+        })
+        binding.btnWorkspaceAddUser.setOnClickListener(View.OnClickListener {
+            showFragment(AddUserFragment())
+        })
+
+
         loadText()
     }
 
     fun loadText() {
         binding.tvWorkspaceName.text = workspaceData.name
         binding.tvWorkspaceType.text = workspaceData.type
+    }
+
+    fun showFragment(fragment: Fragment)
+    {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragmentAddUser, fragment)
+        fragmentTransaction.commit()
     }
 }

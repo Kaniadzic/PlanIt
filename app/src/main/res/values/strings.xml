@@ -45,7 +45,10 @@
         <item>Hobby</item>
         <item>Działalność charytatywna</item>
     </string-array>
-
+    <string-array name="workspace_roles">
+        <item>User</item>
+        <item>Admin</item>
+    </string-array>
 
     <!-- Edycja konta użytkownika -->
     <string-array name="countries_array">

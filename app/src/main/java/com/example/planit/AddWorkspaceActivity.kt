@@ -79,13 +79,15 @@ class AddWorkspaceActivity : AppCompatActivity() {
                 binding.etName.text.toString(),
                 currentDate,
                 FirebaseAuth.getInstance().currentUser?.uid.toString(),
-                binding.typeSpinner.selectedItem.toString()
+                binding.typeSpinner.selectedItem.toString(),
+                "",
+                ""
             )
 
             databaseReference
                 .child(workspaceID)
                 .setValue(newWorkspace)
-                .addOnCompleteListener{
+                .addOnSuccessListener{
                     Toast.makeText(this, "Sukces!", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(applicationContext, WorkspacesActivity::class.java))
                 }
