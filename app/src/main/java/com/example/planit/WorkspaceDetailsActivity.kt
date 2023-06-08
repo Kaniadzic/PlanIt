@@ -71,23 +71,19 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
                 }
         })
 
-        binding.btnWorkspaceEdit.setOnClickListener(View.OnClickListener {
-
-        })
-
         binding.btnWorkspaceTasks.setOnClickListener(View.OnClickListener {
 
         })
 
         binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
-
+            showFragment(WorkspaceUsersFragment())
         })
         binding.btnWorkspaceAddUser.setOnClickListener(View.OnClickListener {
             showFragment(AddUserFragment())
         })
 
-
         loadText()
+        checkUserPermissions()
     }
 
     fun loadText() {
@@ -102,7 +98,17 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
         fragment.arguments = fragmentBundle
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentAddUser, fragment)
+        fragmentTransaction.replace(R.id.fragmentContainter, fragment)
         fragmentTransaction.commit()
+    }
+
+    fun checkUserPermissions() {
+        val userID = mAuth.currentUser?.uid
+        Log.d("Current user: ", userID.toString())
+
+        if (workspaceData.creatorId == userID) {
+            binding.btnWorkspaceAddUser.visibility = View.VISIBLE
+            binding.btnWorkspaceLeave.visibility = View.INVISIBLE
+        }
     }
 }

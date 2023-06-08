@@ -46,6 +46,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/btn_workspace_leave"
+        android:layout_width="70dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/planit_purple"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logout_white"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_workspace_type"
+        app:layout_constraintEnd_toStartOf="@+id/tv_workspace_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
         android:id="@+id/btn_workspace_edit"
         android:visibility="invisible"
         android:layout_width="70dp"
@@ -60,7 +74,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentAddUser"
+        android:id="@+id/fragmentContainter"
         class="com.example.planit.AddUserFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -110,6 +124,7 @@
 
         <ImageButton
             android:id="@+id/btn_workspace_add_user"
+            android:visibility="invisible"
             android:layout_width="70dp"
             android:layout_height="64dp"
             android:backgroundTint="@color/planit_purple"

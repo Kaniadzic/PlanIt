@@ -27,7 +27,9 @@ class EditActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-        databaseReference = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Users")
+        databaseReference = FirebaseDatabase
+            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Users")
 
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -168,7 +170,14 @@ class EditActivity : AppCompatActivity()
 
     fun writeNewUser(uid: String, name: String, surname: String, photoUrl: String, countryCode: Int, countryRole: Int)
     {
-        val user = User(name, surname, photoUrl, countryCode, countryRole)
+        val user = User(
+            name,
+            surname,
+            photoUrl,
+            countryCode,
+            countryRole,
+            mAuth.currentUser?.email
+        )
 
 
         databaseReference.child(uid).setValue(user).addOnSuccessListener {

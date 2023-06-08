@@ -50,7 +50,7 @@ class AddUserFragment : Fragment() {
         {
             if (email.text.toString().isNotEmpty() && utils.validateEmail(email.text.toString()))
             {
-                dupa(
+                showUsersList(
                     viewOfLayout.findViewById<TextView>(R.id.et_email).text.toString(),
                     viewOfLayout.findViewById<Spinner>(R.id.sp_role).selectedItem.toString()
                 )
@@ -80,7 +80,7 @@ class AddUserFragment : Fragment() {
         }
     }
 
-    fun dupa(email: String, role: String) {
+    fun showUsersList(email: String, role: String) {
         val workspaceID = arguments?.get("workspaceID").toString()
 
         userInWorkspace(email, role, workspaceID)

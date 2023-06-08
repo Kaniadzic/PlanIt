@@ -4,7 +4,8 @@ data class User(
     val surname: String? = null,
     val photoUrl: String? = null,
     val countryCode: Int? = null,
-    val roleCode: Int? = null
+    val roleCode: Int? = null,
+    val email: String? = null
 )
 
 

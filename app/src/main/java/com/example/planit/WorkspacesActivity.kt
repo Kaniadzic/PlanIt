@@ -2,7 +2,6 @@ package com.example.planit
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -124,7 +123,6 @@ class WorkspacesActivity : AppCompatActivity() {
             .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("Workspaces")
 
-        val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
         var dataSnapshot: DataSnapshot
         val email = mAuth.currentUser?.email
 
@@ -155,7 +153,6 @@ class WorkspacesActivity : AppCompatActivity() {
                     }
                 }
 
-                ////////////////////
                 var workspacesNames = arrayOf<String?>()
                 var workspacesTypes = arrayOf<String?>()
                 var workspacesIDs = arrayOf<String?>()
@@ -186,19 +183,3 @@ class WorkspacesActivity : AppCompatActivity() {
             }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
