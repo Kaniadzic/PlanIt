@@ -2,6 +2,7 @@ package com.example.planit
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ class WorkspacesActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private val workspacesList = mutableListOf<Workspace?>()
+    private val workspacesListAsUser = mutableListOf<Workspace?>()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -50,8 +52,10 @@ class WorkspacesActivity : AppCompatActivity() {
         })
 
         getWorkspaces()
+        getWorkspacesAsUser()
     }
 
+    // wyświetlenie projektów w których user jest założycielem
     fun getWorkspaces() {
         databaseReference = FirebaseDatabase
             .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
@@ -112,6 +116,74 @@ class WorkspacesActivity : AppCompatActivity() {
         }
 
         return ws
+    }
+
+    // wyświetlenie projektów w których user nie ma specjalnych uprawnień
+    fun getWorkspacesAsUser() {
+        databaseReference = FirebaseDatabase
+            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Workspaces")
+
+        val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        var dataSnapshot: DataSnapshot
+        val email = mAuth.currentUser?.email
+
+        databaseReference
+            .get()
+            .addOnSuccessListener {
+                dataSnapshot = it
+
+                dataSnapshot.children.forEach{
+                    var dupa = it.getValue(WorkspaceWithUsers::class.java)
+
+                    if (dupa?.users?.values != null) {
+                        val test = ArrayList(dupa?.users?.values)
+
+                        for(user in test) {
+                            if (user.email.toString() == email.toString()) {
+                                val ws = Workspace(
+                                    dupa.id,
+                                    dupa.name,
+                                    dupa.creationDate,
+                                    dupa.creatorId,
+                                    dupa.type
+                                )
+
+                                workspacesListAsUser.add(ws)
+                            }
+                        }
+                    }
+                }
+
+                ////////////////////
+                var workspacesNames = arrayOf<String?>()
+                var workspacesTypes = arrayOf<String?>()
+                var workspacesIDs = arrayOf<String?>()
+
+                workspacesListAsUser.forEach{
+                    workspacesNames = workspacesNames.plus(it?.name)
+                    workspacesTypes = workspacesTypes.plus(it?.type)
+                    workspacesIDs = workspacesIDs.plus(it?.id)
+                }
+
+                val workspacesListAdapter = WorkspacesListAdapter(this, workspacesNames, workspacesTypes, workspacesIDs)
+                binding.lvWorkspacesUser.adapter = workspacesListAdapter
+
+                binding.lvWorkspacesUser.setOnItemClickListener(){adapterView, view, position, id ->
+                    val itemAtPos = adapterView.getItemAtPosition(position)
+                    val ws = getWorkspaceByID(workspacesListAsUser, itemAtPos.toString())
+                    val intention = Intent(applicationContext, WorkspaceDetailsActivity::class.java)
+
+                    // tak jest prościej xD
+                    intention.putExtra("ID", itemAtPos.toString())
+                    intention.putExtra("Name", ws?.name)
+                    intention.putExtra("CreationDate", ws?.creationDate)
+                    intention.putExtra("CreatorID", ws?.creatorId)
+                    intention.putExtra("Type", ws?.type)
+
+                    startActivity(intention)
+                }
+            }
     }
 }
 
