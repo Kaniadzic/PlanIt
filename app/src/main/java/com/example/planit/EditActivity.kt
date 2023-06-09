@@ -51,8 +51,14 @@ class EditActivity : AppCompatActivity()
 
         binding.btnSave.setOnClickListener(View.OnClickListener
         {
-            writeNewUser(binding.etName.text.toString(), binding.etSurname.text.toString(), imageUrlDef,
-                binding.countrySpinner.selectedItemPosition, binding.roleSpinner.selectedItemPosition)
+            writeNewUser(
+                binding.etName.text.toString(),
+                binding.etSurname.text.toString(),
+                mAuth.currentUser?.email,
+                imageUrlDef,
+                binding.countrySpinner.selectedItemPosition,
+                binding.roleSpinner.selectedItemPosition
+            )
 
             Log.i("DZIALA", "DJHHFKJFU")
             finish()
@@ -152,9 +158,16 @@ class EditActivity : AppCompatActivity()
         binding.btnSave.visibility = View.VISIBLE
     }
 
-    fun writeNewUser(name: String, surname: String, photoUrl: String, countryCode: Int, countryRole: Int)
+    fun writeNewUser(name: String, surname: String, email: String?, photoUrl: String, countryCode: Int, countryRole: Int)
     {
-        val user = User(name, surname, photoUrl, countryCode, countryRole)
+        val user = User(
+            name,
+            surname,
+            photoUrl,
+            countryCode,
+            countryRole,
+            email
+        )
 
         databaseReference.setValue(user).addOnSuccessListener {
             Log.i("LOGI", "SZMATA")
