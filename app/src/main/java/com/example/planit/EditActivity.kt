@@ -1,17 +1,18 @@
 package com.example.planit
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.planit.databinding.ActivityEditBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import io.getstream.avatarview.coil.loadImage
 
 class EditActivity : AppCompatActivity()
 {
@@ -20,38 +21,38 @@ class EditActivity : AppCompatActivity()
     private lateinit var mAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private val SELECT_PICTURE = 200
-    var ile = 1
+    lateinit var userDetails: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
+        mAuth = FirebaseAuth.getInstance()
 
-        databaseReference = FirebaseDatabase
-            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
-            .getReference("Users")
+        userDetails = applicationContext.getSharedPreferences(mAuth.uid, MODE_PRIVATE)
+
+        databaseReference = mAuth.uid?.let { it -> FirebaseDatabase.
+        getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
+        getReference("Users").child(it) }!!
 
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSpinner(binding.countrySpinner)
-        setSpinner2(binding.roleSpinner)
+        setSpinner(binding.countrySpinner, R.array.countries_array)
+        setSpinner(binding.roleSpinner, R.array.roles_array)
 
-        mAuth = FirebaseAuth.getInstance()
-        read()
-        imageUrlDef = "https://img1.ak.crunchyroll.com/i/spire2/0fdcdc55d10ccee7f745c348124c193f1655144936_large.jpg"
+        read2()
+        imageUrlDef = userDetails.getString(mAuth.uid, "https://i.pinimg.com/originals/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg").toString()
 
-        binding.avatarView.setOnClickListener(View.OnClickListener
+        binding.imageView.setOnClickListener(View.OnClickListener
         {
             imageChooser()
         })
 
         binding.btnSave.setOnClickListener(View.OnClickListener
         {
-            mAuth.currentUser?.let { it1 ->
-                writeNewUser(it1.uid, binding.etName.text.toString(), binding.etSurname.text.toString(), imageUrlDef, binding.countrySpinner.selectedItemPosition,
-                binding.roleSpinner.selectedItemPosition)
-            }
+            writeNewUser(binding.etName.text.toString(), binding.etSurname.text.toString(), imageUrlDef,
+                binding.countrySpinner.selectedItemPosition, binding.roleSpinner.selectedItemPosition)
 
             Log.i("DZIALA", "DJHHFKJFU")
             finish()
@@ -87,7 +88,6 @@ class EditActivity : AppCompatActivity()
             startActivity(Intent(applicationContext, EditActivity::class.java))
         })
     }
-
     private fun imageChooser()
     {
         val intent = Intent()
@@ -96,12 +96,11 @@ class EditActivity : AppCompatActivity()
 
         startActivityForResult(Intent.createChooser(intent, "SelectPicture"), SELECT_PICTURE)
     }
-
-    fun setSpinner(spinner: Spinner)
+    fun setSpinner(spinner: Spinner, array: Int)
     {
         ArrayAdapter.createFromResource(
             applicationContext,
-            R.array.countries_array,
+            array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
@@ -110,21 +109,6 @@ class EditActivity : AppCompatActivity()
             spinner.adapter = adapter
         }
     }
-
-    fun setSpinner2(spinner: Spinner)
-    {
-        ArrayAdapter.createFromResource(
-            applicationContext,
-            R.array.roles_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            spinner.adapter = adapter
-        }
-    }
-
     fun showFragment(fragment: Fragment, id: Int)
     {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -138,7 +122,7 @@ class EditActivity : AppCompatActivity()
     //sry nie miałem lepszego rozwiazania :(
     fun hide()
     {
-        binding.avatarView.visibility = View.GONE
+        binding.imageView.visibility = View.GONE
         binding.tvName.visibility = View.GONE
         binding.etName.visibility = View.GONE
         binding.tvSurname.visibility = View.GONE
@@ -154,7 +138,7 @@ class EditActivity : AppCompatActivity()
 
     fun show()
     {
-        binding.avatarView.visibility = View.VISIBLE
+        binding.imageView.visibility = View.VISIBLE
         binding.tvName.visibility = View.VISIBLE
         binding.etName.visibility = View.VISIBLE
         binding.tvSurname.visibility = View.VISIBLE
@@ -168,19 +152,11 @@ class EditActivity : AppCompatActivity()
         binding.btnSave.visibility = View.VISIBLE
     }
 
-    fun writeNewUser(uid: String, name: String, surname: String, photoUrl: String, countryCode: Int, countryRole: Int)
+    fun writeNewUser(name: String, surname: String, photoUrl: String, countryCode: Int, countryRole: Int)
     {
-        val user = User(
-            name,
-            surname,
-            photoUrl,
-            countryCode,
-            countryRole,
-            mAuth.currentUser?.email
-        )
+        val user = User(name, surname, photoUrl, countryCode, countryRole)
 
-
-        databaseReference.child(uid).setValue(user).addOnSuccessListener {
+        databaseReference.setValue(user).addOnSuccessListener {
             Log.i("LOGI", "SZMATA")
         }.addOnFailureListener {
             Log.i("DUPA", it.message.toString())
@@ -201,51 +177,48 @@ class EditActivity : AppCompatActivity()
                 {
                     imageUrlDef = selectedImageUri.toString()
                     Log.i("URL", imageUrlDef)
-                    binding.avatarView.loadImage(imageUrlDef)
+                    Glide.with(this).load(imageUrlDef).circleCrop().into(binding.imageView)
                 }
             }
         }
     }
-    fun read()
+    fun read2()
     {
-        mAuth.currentUser?.let {
-            databaseReference.child(it.uid).addChildEventListener(object: ChildEventListener
+        mAuth.uid?.let { databaseReference.addValueEventListener(object: ValueEventListener
+        {
+            override fun onDataChange(snapshot: DataSnapshot)
             {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?)
+                var user = snapshot.getValue(User::class.java)
+
+                if (user != null)
                 {
-                    val keys = snapshot.key.toString().split("\n")
-                    val values = snapshot.value.toString().split("\n")
+                    binding.etName.setText(user.name)
+                    binding.etSurname.setText(user.surname)
+                    user.countryCode?.let { it1 -> binding.countrySpinner.setSelection(it1) }
+                    user.roleCode?.let { it1 -> binding.roleSpinner.setSelection(it1) }
+                    user.photoUrl?.let { it1 -> Log.i("PHOTS", it1) }
 
-                    val map: Map<String, String> = keys.zip(values).toMap()
-                    map["name"]?.let { it1 -> binding.etName.setText(it1)}
-                    map["surname"]?.let { it1 -> binding.etSurname.setText(it1) }
-                    map["countryCode"]?.let { it1 -> binding.countrySpinner.setSelection(Integer.parseInt(it1)) }
-                    map["roleCode"]?.let { it1 -> binding.roleSpinner.setSelection(Integer.parseInt(it1)) }
-                    map["photoUrl"]?.let { it1 -> binding.avatarView.loadImage(data = it1) }
+                    if (user.photoUrl?.isNotEmpty() == true)
+                    {
+                        Log.i("NIEPUSTE", "NIEPUSTE")
+                        var edit = userDetails.edit()
+                        edit.putString(mAuth.uid, user.photoUrl!!.trim())
+                        edit.apply()
+                    }
+                    else
+                    {
+                        Log.i("PUSTE", "PUSTE")
+                    }
+
+                    Glide.with(applicationContext).load(user.photoUrl).circleCrop().into(binding.imageView)
                 }
+            }
 
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?)
-                {
-                    Log.i("ZMIENIONO", "zmiana")
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot)
-                {
-                    Log.i("DELETED", snapshot.value.toString())
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?)
-                {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onCancelled(error: DatabaseError)
-                {
-                    Log.i("FAILED", error.message)
-                }
-
-            })
-        }
+            override fun onCancelled(error: DatabaseError)
+            {
+                Log.e("ERROR", error.message)
+            }
+        })}
     }
 }
 
