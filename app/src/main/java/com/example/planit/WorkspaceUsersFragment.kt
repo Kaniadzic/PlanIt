@@ -27,8 +27,6 @@ class WorkspaceUsersFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -58,7 +56,7 @@ class WorkspaceUsersFragment : Fragment() {
         val usersEmails: ArrayList<String?> = ArrayList<String?>()
         val usersRoles: ArrayList<String?> = ArrayList<String?>()
 
-        // maile w workspace
+        // lista userów w workspace
         databaseReference
             .child(workspaceID)
             .child("users")
@@ -73,19 +71,19 @@ class WorkspaceUsersFragment : Fragment() {
                     usersRoles.add(role.toString())
                 }
 
-                if (creatorID == mAuth.currentUser?.uid) {
-                    Log.i("Role", "To je właściciel")
+                val isCreator = creatorID == mAuth.currentUser?.uid
 
+                val usersListAdapter = UsersListAdapter(requireActivity(), usersEmails, usersRoles, isCreator)
+                viewOfLayout.findViewById<ListView>(R.id.lv_users).adapter = usersListAdapter
+
+                if (isCreator) {
                     viewOfLayout.findViewById<ListView>(R.id.lv_users).setOnItemClickListener(){
-                        adapterView, view, position, id ->
+                            adapterView, view, position, id ->
                         val itemAtPos = adapterView.getItemAtPosition(position)
 
                         Log.e("R E M O V E", "Remove from ${workspaceID} user ${itemAtPos}")
                     }
                 }
-
-                val usersListAdapter = UsersListAdapter(requireActivity(), usersEmails, usersRoles)
-                viewOfLayout.findViewById<ListView>(R.id.lv_users).adapter = usersListAdapter
             }
     }
 }

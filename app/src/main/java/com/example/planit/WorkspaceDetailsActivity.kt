@@ -78,8 +78,13 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
         binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
             showFragment(WorkspaceUsersFragment())
         })
+
         binding.btnWorkspaceAddUser.setOnClickListener(View.OnClickListener {
             showFragment(AddUserFragment())
+        })
+
+        binding.btnWorkspaceLeave.setOnClickListener(View.OnClickListener {
+            leaveWorkspace()
         })
 
         loadText()
@@ -111,5 +116,41 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
             binding.btnWorkspaceAddUser.visibility = View.VISIBLE
             binding.btnWorkspaceLeave.visibility = View.INVISIBLE
         }
+    }
+
+    fun leaveWorkspace() {
+        databaseReference = FirebaseDatabase
+            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Workspaces")
+            .child(workspaceData.id.toString())
+            .child("users")
+
+        var dbRef: DatabaseReference = FirebaseDatabase
+            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Workspaces")
+            .child(workspaceData.id.toString())
+            .child("users")
+
+        var dataSnapshot: DataSnapshot
+
+        databaseReference
+            .get()
+            .addOnSuccessListener {
+                dataSnapshot = it
+
+                for(d in dataSnapshot.children) {
+                    var email = d.getValue(WorkspaceUser::class.java)?.email
+
+                    if (email == mAuth.currentUser?.email) {
+                        dbRef
+                            .child(d.key.toString())
+                            .removeValue()
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Projekt opuszczono", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(applicationContext, WorkspacesActivity::class.java))
+                            }
+                    }
+                }
+            }
     }
 }
