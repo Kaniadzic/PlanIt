@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -81,7 +82,45 @@ class WorkspaceUsersFragment : Fragment() {
                             adapterView, view, position, id ->
                         val itemAtPos = adapterView.getItemAtPosition(position)
 
-                        Log.e("R E M O V E", "Remove from ${workspaceID} user ${itemAtPos}")
+                        removeUser(workspaceID, itemAtPos.toString())
+                    }
+                }
+            }
+    }
+
+    fun removeUser(workspaceID: String, userEmail: String) {
+        Log.e("R E M O V E", "Remove from ${workspaceID} user ${userEmail}")
+
+        databaseReference = FirebaseDatabase
+            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Workspaces")
+            .child(workspaceID)
+            .child("users")
+
+        var dbRef: DatabaseReference = FirebaseDatabase
+            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Workspaces")
+            .child(workspaceID)
+            .child("users")
+
+        var dataSnapshot: DataSnapshot
+
+        databaseReference
+            .get()
+            .addOnSuccessListener {
+                dataSnapshot = it
+
+                for(d in dataSnapshot.children) {
+                    var email = d.getValue(WorkspaceUser::class.java)?.email
+
+                    if (email == userEmail) {
+                        dbRef
+                            .child(d.key.toString())
+                            .removeValue()
+                            .addOnSuccessListener {
+                                Toast.makeText(requireContext(), "Usunięto użytkownika ${email}", Toast.LENGTH_SHORT).show()
+                                fragmentManager?.beginTransaction()?.remove(this)?.commit()
+                            }
                     }
                 }
             }
