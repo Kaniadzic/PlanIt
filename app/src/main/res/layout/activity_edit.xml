@@ -18,23 +18,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <io.getstream.avatarview.AvatarView
-            android:id="@+id/avatar_view"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
-            app:avatarViewBorderColor="#FF0000"
-            app:avatarViewBorderWidth="3dp"
-            app:avatarViewIndicatorBorderColor="@color/white"
-            app:avatarViewIndicatorBorderSizeCriteria="10"
-            app:avatarViewIndicatorPosition="bottomRight"
-            app:avatarViewIndicatorSizeCriteria="9"
-            app:avatarViewInitialsTextStyle="bold"
-            app:avatarViewShape="circle"
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +33,7 @@
             android:text="Imię"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avatar_view" />
+            app:layout_constraintTop_toBottomOf="@+id/image_view" />
 
         <EditText
             android:id="@+id/et_name"
