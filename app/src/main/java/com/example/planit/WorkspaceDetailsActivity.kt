@@ -89,6 +89,7 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
 
         loadText()
         checkUserPermissions()
+        showWorkspaceCreator()
     }
 
     fun loadText() {
@@ -152,5 +153,27 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    fun showWorkspaceCreator() {
+        var dataSnapshot: DataSnapshot
+
+        databaseReference = FirebaseDatabase
+            .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Users")
+
+        databaseReference
+            .child(workspaceData.creatorId.toString())
+            .get()
+            .addOnSuccessListener {
+                dataSnapshot = it
+
+                var email = dataSnapshot.getValue(User::class.java)?.email
+
+                binding.tvWorkspaceCreator.text = "Autor: ${email}"
+            }
+
+
+        workspaceData.creatorId
     }
 }

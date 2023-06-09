@@ -31,6 +31,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_workspace_name" />
 
+    <TextView
+        android:id="@+id/tv_workspace_creator"
+        android:layout_width="256dp"
+        android:layout_height="wrap_content"
+        android:text="creator"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_workspace_type" />
+
     <ImageButton
         android:id="@+id/btn_workspace_delete"
         android:layout_width="70dp"
