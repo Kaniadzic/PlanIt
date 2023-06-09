@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.getValue
 
 class WorkspaceUsersFragment : Fragment() {
     private lateinit var viewOfLayout: View
@@ -54,7 +55,8 @@ class WorkspaceUsersFragment : Fragment() {
             .getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("Workspaces")
 
-        val users: ArrayList<String?> = ArrayList<String?>()
+        val usersEmails: ArrayList<String?> = ArrayList<String?>()
+        val usersRoles: ArrayList<String?> = ArrayList<String?>()
 
         // maile w workspace
         databaseReference
@@ -65,8 +67,10 @@ class WorkspaceUsersFragment : Fragment() {
                 dataSnapshot = it
 
                 for(d in dataSnapshot.children) {
-                    var test = d.getValue(WorkspaceUser::class.java)?.email
-                    users.add(test.toString())
+                    var email = d.getValue(WorkspaceUser::class.java)?.email
+                    var role = d.getValue(WorkspaceUser::class.java)?.role
+                    usersEmails.add(email.toString())
+                    usersRoles.add(role.toString())
                 }
 
                 if (creatorID == mAuth.currentUser?.uid) {
@@ -80,7 +84,7 @@ class WorkspaceUsersFragment : Fragment() {
                     }
                 }
 
-                val usersListAdapter = UsersListAdapter(requireActivity(), users)
+                val usersListAdapter = UsersListAdapter(requireActivity(), usersEmails, usersRoles)
                 viewOfLayout.findViewById<ListView>(R.id.lv_users).adapter = usersListAdapter
             }
     }

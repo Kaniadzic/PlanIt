@@ -93,7 +93,7 @@ class AddUserFragment : Fragment() {
 
         databaseReference
             .child(workspaceID)
-            .child(if (role == "User") "users" else "admins")
+            .child("users")
             .get()
             .addOnSuccessListener {
                 dataSnapshot = it
@@ -125,7 +125,7 @@ class AddUserFragment : Fragment() {
 
         databaseReference
             .child(workspaceID)
-            .child(if (role == "User") "users" else "admins")
+            .child("users")
             .push()
             .setValue(newWorkspaceUser)
             .addOnSuccessListener{
