@@ -7,17 +7,18 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.planit.databinding.ActivityWorkspaceDetailsBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 
 class WorkspaceDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWorkspaceDetailsBinding
     private lateinit var mAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var workspaceData: Workspace
+    var postsList: ArrayList<Post> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +28,9 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
+
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         workspaceData = Workspace(
             intent.getStringExtra("ID"),
@@ -72,7 +76,11 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
         })
 
         binding.btnWorkspaceTasks.setOnClickListener(View.OnClickListener {
-
+            readAllPosts()
+            Log.i("ILEWKR", postsList.size.toString())
+            val adapter = PostAdapter(postsList)
+            binding.recyclerView.adapter = adapter
+            binding.recyclerView.visibility = View.VISIBLE
         })
 
         binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
@@ -179,7 +187,27 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
                 binding.tvWorkspaceCreator.text = "Autor: ${email}"
             }
 
-
         workspaceData.creatorId
+    }
+
+    fun readAllPosts()
+    {
+        val databaseRef = FirebaseDatabase.
+        getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
+        getReference("Workspaces").child("-NXe1HGF_3Bs4MrZjmeg").child("posts")
+
+        databaseRef.child("lsaahxcspp").addValueEventListener(object: ValueEventListener
+        {
+            override fun onDataChange(snapshot: DataSnapshot)
+            {
+                snapshot.getValue(Post::class.java)?.let { postsList.add(it) }
+                snapshot.getValue(Post::class.java)?.name?.let { Log.i("DODANO", it) }
+            }
+
+            override fun onCancelled(error: DatabaseError)
+            {
+                TODO("Not yet implemented")
+            }
+        })
     }
 }

@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment
 import com.example.planit.databinding.ActivityCreatePostBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 
 class CreatePostActivity : AppCompatActivity()
 {
@@ -26,7 +29,7 @@ class CreatePostActivity : AppCompatActivity()
 
         databaseReference = intent.getStringExtra("ID")?.let {
             FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
-            getReference("Workspaces").child(it) }!!
+            getReference("Workspaces").child(it).child("posts") }!!
 
         setSpinner(binding.platformSpinner, R.array.platforms_array)
         setSpinner(binding.typeSpinner, R.array.types_array)
@@ -39,9 +42,15 @@ class CreatePostActivity : AppCompatActivity()
 
         binding.btnPublish.setOnClickListener(View.OnClickListener
         {
-            writeNewPost(binding.etName.text.toString(), binding.etDate.text.toString(),
-            binding.platformSpinner.selectedItemPosition, binding.typeSpinner.selectedItemPosition,
-            binding.etContent.text.toString())
+            val time = Calendar.getInstance().time
+            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm")
+            val current = formatter.format(time)
+
+            val newPost = Post(binding.etName.text.toString(), binding.etDate.text.toString(), current,
+                binding.platformSpinner.selectedItemPosition, binding.typeSpinner.selectedItemPosition,
+                binding.etContent.text.toString())
+
+            writeNewPost(newPost)
 
             finish()
         })
@@ -72,11 +81,9 @@ class CreatePostActivity : AppCompatActivity()
         }
     }
 
-    fun writeNewPost(name: String, date: String, platform: Int, type: Int, content: String)
+    fun writeNewPost(newPost: Post)
     {
-        val post = Post(name, date, platform, type, content)
-
-        databaseReference.child("bonoyassine").setValue(post).addOnSuccessListener {
+        databaseReference.child(randomId()).setValue(newPost).addOnSuccessListener {
             Log.i("LOGI", "SZMATA")
         }.addOnFailureListener {
             Log.i("DUPA", it.message.toString())
@@ -85,5 +92,18 @@ class CreatePostActivity : AppCompatActivity()
     fun showElements()
     {
         binding.conLayout.visibility = View.VISIBLE
+    }
+
+    fun randomId(): String
+    {
+        var id: String = ""
+
+        for (i in 1..10)
+        {
+            var znak = ((97..122).random()).toChar()
+            id += znak
+        }
+
+        return id
     }
 }

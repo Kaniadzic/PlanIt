@@ -43,6 +43,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_workspace_type" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/tv_workspace_creator" />
+
     <ImageButton
         android:id="@+id/btn_workspace_delete"
         android:layout_width="70dp"
@@ -107,7 +118,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_workspace_type"
-        tools:layout="@layout/fragment_add_user" />
+        tools:layout="@layout/fragment_add_user"
+        android:visibility="visible"/>
 
     <!-- Menu -->
     <androidx.constraintlayout.widget.ConstraintLayout
