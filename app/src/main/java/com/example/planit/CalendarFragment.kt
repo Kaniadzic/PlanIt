@@ -43,7 +43,7 @@ class CalendarFragment : Fragment()
         calendarClick = viewOfLayout.findViewById(R.id.calendar_click)
 
         calendarClick.setOnDateChangeListener { _: CalendarView, year: Int, month: Int, day: Int ->
-            date = "$day / $month / $year"
+            date = String.format("%d/%d/%d", day, (month + 1), year)
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
 
             (activity as CreatePostActivity).runOnUiThread {

@@ -29,8 +29,8 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.setHasFixedSize(true)
 
         workspaceData = Workspace(
             intent.getStringExtra("ID"),
@@ -76,11 +76,12 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
         })
 
         binding.btnWorkspaceTasks.setOnClickListener(View.OnClickListener {
+            binding.recyclerView.visibility = View.VISIBLE
             readAllPosts()
-            Log.i("ILEWKR", postsList.size.toString())
             val adapter = PostAdapter(postsList)
             binding.recyclerView.adapter = adapter
-            binding.recyclerView.visibility = View.VISIBLE
+            adapter.notifyDataSetChanged()
+            Log.i("ILEWKR", postsList.size.toString())
         })
 
         binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
@@ -196,18 +197,22 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
         getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
         getReference("Workspaces").child("-NXe1HGF_3Bs4MrZjmeg").child("posts")
 
-        databaseRef.child("lsaahxcspp").addValueEventListener(object: ValueEventListener
+        databaseRef.addValueEventListener(object: ValueEventListener
         {
             override fun onDataChange(snapshot: DataSnapshot)
             {
-                snapshot.getValue(Post::class.java)?.let { postsList.add(it) }
-                snapshot.getValue(Post::class.java)?.name?.let { Log.i("DODANO", it) }
+                for (i in snapshot.children)
+                {
+                    i.getValue(Post::class.java)?.let { postsList.add(it) }
+                    i.getValue(Post::class.java)?.name?.let { Log.i("DODANO", it) }
+                }
             }
 
             override fun onCancelled(error: DatabaseError)
             {
                 TODO("Not yet implemented")
             }
+
         })
     }
 }
