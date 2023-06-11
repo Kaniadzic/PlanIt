@@ -8,7 +8,7 @@
     <!-- Menu -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/editLayout"
         android:layout_width="match_parent"
         android:layout_height="600dp"
         android:layout_marginTop="4dp"
@@ -128,29 +128,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_passwordchange" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentPassChange"
-            class="com.example.planit.PasswordChangeFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerInParent="true"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout="@layout/fragment_password_change" />
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fragmentMailChange"
-                    android:layout_height="fill_parent"
-                    android:layout_width="fill_parent"
-                    android:layout_centerInParent="true"
-                    class="com.example.planit.EmailChangeFragment"
-                    tools:layout="@layout/fragment_email_change"
-                    android:visibility="visible"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentPassChange"
+        class="com.example.planit.PasswordChangeFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_password_change" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentMailChange"
+        android:layout_height="500dp"
+        android:layout_width="fill_parent"
+        android:layout_centerInParent="true"
+        class="com.example.planit.EmailChangeFragment"
+        tools:layout="@layout/fragment_email_change"
+        android:visibility="visible"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fragmentMenu"

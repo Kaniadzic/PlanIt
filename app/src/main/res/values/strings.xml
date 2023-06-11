@@ -69,5 +69,20 @@
         <item>Szarl Leklerk</item>
     </string-array>
 
+    <string-array name="platforms_array">
+        <item>Facebook</item>
+        <item>Instagram</item>
+        <item>OnlySimps</item>
+        <item>DontWatchPornHub</item>
+    </string-array>
+
+    <string-array name="types_array">
+        <item>Grafika</item>
+        <item>Wideo</item>
+        <item>Reels</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

@@ -1,45 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CreatePostActivity"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:text="planowanie posta"
+    <!-- Menu -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"/>
+        android:layout_height="600dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/data"
-        android:text="data"
-        android:textSize="30dp"
-        android:layout_marginTop="15dp"
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:text="Tytuł posta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:hint="Nazwa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:text="Data publikacji posta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_name" />
+
+        <EditText
+            android:id="@+id/et_date"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:hint="Data publikacji"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+
+        <Button
+            android:id="@+id/btn_datechoose"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:text="wybierz date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_date"/>
+
+        <TextView
+            android:id="@+id/tv_platforma"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:text="Platforma"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_datechoose" />
+
+        <Spinner
+            android:id="@+id/platform_spinner"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_platforma" />
+
+        <TextView
+            android:id="@+id/tv_typ"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:text="Typ posta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/platform_spinner" />
+
+        <Spinner
+            android:id="@+id/type_spinner"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_typ" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="312dp"
+            android:layout_height="wrap_content"
+            android:text="Treść posta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type_spinner" />
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="312dp"
+            android:layout_height="150dp"
+            android:hint="Somethiing..."
+            android:gravity="start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_content" />
+
+        <Button
+            android:id="@+id/btn_publish"
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="opublikuj"
+            android:backgroundTint="@color/planit_yellow"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentCalendar"
+        class="com.example.planit.CalendarFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/fragment_calendar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragmentMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="72dp"
+        android:background="@color/planit_purple"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:layout_marginTop="15dp"
-        android:text="Treść posta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"/>
 
-    <EditText
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:hint="Something..."
-        android:gravity="start" />
+        <ImageButton
+            android:id="@+id/btn_menu_settings"
+            android:layout_width="70dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/planit_yellow"
+            android:scaleType="centerCrop"
+            android:src="@drawable/settings_black"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_create_post"
-        android:layout_marginTop="15dp"
-        android:text="opublikuj"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <ImageButton
+            android:id="@+id/btn_menu_calendar"
+            android:layout_width="70dp"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/planit_yellow"
+            android:scaleType="centerCrop"
+            android:src="@drawable/calendar_black"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_menu_home"
+            app:layout_constraintStart_toEndOf="@+id/btn_menu_settings"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/btn_menu_home"
+            android:layout_width="70dp"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/planit_yellow"
+            android:scaleType="centerCrop"
+            android:src="@drawable/home_black"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_menu_logout"
+            app:layout_constraintStart_toEndOf="@+id/btn_menu_calendar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_menu_logout"
+            android:layout_width="70dp"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/planit_yellow"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/logout_black"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

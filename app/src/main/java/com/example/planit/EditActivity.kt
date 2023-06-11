@@ -125,37 +125,14 @@ class EditActivity : AppCompatActivity()
         fragmentTransaction.commit()
     }
 
-    //sry nie miałem lepszego rozwiazania :(
     fun hide()
     {
-        binding.imageView.visibility = View.GONE
-        binding.tvName.visibility = View.GONE
-        binding.etName.visibility = View.GONE
-        binding.tvSurname.visibility = View.GONE
-        binding.etSurname.visibility = View.GONE
-        binding.tvKraj.visibility = View.GONE
-        binding.countrySpinner.visibility = View.GONE
-        binding.tvRola.visibility = View.GONE
-        binding.roleSpinner.visibility = View.GONE
-        binding.btnPasswordchange.visibility = View.GONE
-        binding.btnEmailchange.visibility = View.GONE
-        binding.btnSave.visibility = View.GONE
+        binding.editLayout.visibility = View.GONE
     }
 
     fun show()
     {
-        binding.imageView.visibility = View.VISIBLE
-        binding.tvName.visibility = View.VISIBLE
-        binding.etName.visibility = View.VISIBLE
-        binding.tvSurname.visibility = View.VISIBLE
-        binding.etSurname.visibility = View.VISIBLE
-        binding.tvKraj.visibility = View.VISIBLE
-        binding.countrySpinner.visibility = View.VISIBLE
-        binding.tvRola.visibility = View.VISIBLE
-        binding.roleSpinner.visibility = View.VISIBLE
-        binding.btnPasswordchange.visibility = View.VISIBLE
-        binding.btnEmailchange.visibility = View.VISIBLE
-        binding.btnSave.visibility = View.VISIBLE
+        binding.editLayout.visibility = View.VISIBLE
     }
 
     fun writeNewUser(name: String, surname: String, email: String?, photoUrl: String, countryCode: Int, countryRole: Int)

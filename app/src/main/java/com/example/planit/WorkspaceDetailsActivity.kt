@@ -87,6 +87,12 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
             leaveWorkspace()
         })
 
+        binding.btnPostAdd.setOnClickListener(View.OnClickListener {
+            val intent = Intent(applicationContext, CreatePostActivity::class.java)
+            intent.putExtra("ID", workspaceData.id)
+            startActivity(intent)
+        })
+
         loadText()
         checkUserPermissions()
         showWorkspaceCreator()
