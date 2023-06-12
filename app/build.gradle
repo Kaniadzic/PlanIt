@@ -54,6 +54,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-auth:22.0.0'
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation 'com.firebaseui:firebase-ui-database:8.0.2'
 
     //rozne dziwne smieszne biblioteki i takie tam
 

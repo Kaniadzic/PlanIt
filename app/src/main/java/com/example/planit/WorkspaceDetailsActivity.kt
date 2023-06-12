@@ -8,17 +8,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.planit.databinding.ActivityWorkspaceDetailsBinding
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
+class WorkspaceDetailsActivity : AppCompatActivity()
 {
     private lateinit var binding: ActivityWorkspaceDetailsBinding
     private lateinit var mAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var workspaceData: Workspace
-    var postsList: ArrayList<Post> = arrayListOf()
+    private lateinit var query: DatabaseReference
+    lateinit var workspaceData: Workspace
+    private lateinit var postAdapterDB: PostAdapterDB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +32,6 @@ class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
 
         mAuth = FirebaseAuth.getInstance()
 
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 1)
-        binding.recyclerView.setHasFixedSize(true)
-
         workspaceData = Workspace(
             intent.getStringExtra("ID"),
             intent.getStringExtra("Name"),
@@ -39,6 +39,26 @@ class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
             intent.getStringExtra("CreatorID"),
             intent.getStringExtra("Type")
         )
+
+        query = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
+        getReference("Workspaces").child(workspaceData.id.toString()).child("posts")
+
+        readAllPosts()
+
+        Log.i("WORKSPACEID", workspaceData.id.toString())
+
+        val options: FirebaseRecyclerOptions<Post> = FirebaseRecyclerOptions.Builder<Post>().
+        setQuery(query, Post::class.java).setLifecycleOwner(this).build()
+
+        Log.i("ILE", options.snapshots.size.toString())
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.setHasFixedSize(true)
+
+        postAdapterDB = PostAdapterDB(options, query)
+        binding.recyclerView.adapter = postAdapterDB
+
+        postAdapterDB.notifyDataSetChanged()
 
         binding.btnMenuLogout.setOnClickListener(View.OnClickListener {
             mAuth.signOut()
@@ -76,20 +96,15 @@ class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
         })
 
         binding.btnWorkspaceTasks.setOnClickListener(View.OnClickListener {
-            readAllPosts()
-            val adapter = PostAdapter(postsList, workspaceData)
-            binding.recyclerView.adapter = adapter
-            adapter.notifyDataSetChanged()
-            Log.i("ILEWKR", postsList.size.toString())
+
         })
 
         binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
-            showFragment(WorkspaceUsersFragment())
-            binding.recyclerView.visibility = View.GONE
+            showFragment(WorkspaceUsersFragment(), R.id.fragmentWorkspaceUsers)
         })
 
         binding.btnWorkspaceAddUser.setOnClickListener(View.OnClickListener {
-            showFragment(AddUserFragment())
+            showFragment(AddUserFragment(), R.id.fragmentAddUser)
         })
 
         binding.btnWorkspaceLeave.setOnClickListener(View.OnClickListener {
@@ -112,7 +127,7 @@ class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
         binding.tvWorkspaceType.text = workspaceData.type
     }
 
-    fun showFragment(fragment: Fragment)
+    fun showFragment(fragment: Fragment, id: Int)
     {
         val fragmentBundle = Bundle()
         fragmentBundle.putString("workspaceID", workspaceData.id)
@@ -120,8 +135,7 @@ class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
         fragment.arguments = fragmentBundle
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentContainter, fragment)
-        binding.recyclerView.visibility = View.GONE
+        fragmentTransaction.replace(id, fragment)
         fragmentTransaction.commit()
     }
 
@@ -194,30 +208,31 @@ class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
 
     fun readAllPosts()
     {
-        val databaseRef = FirebaseDatabase.
-        getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
-        getReference("Workspaces").child(workspaceData.id.toString()).child("posts")
-
-        databaseRef.addValueEventListener(object: ValueEventListener
+        query.addValueEventListener(object: ValueEventListener
         {
             override fun onDataChange(snapshot: DataSnapshot)
             {
                 for (i in snapshot.children)
                 {
-                    i.getValue(Post::class.java)?.let { postsList.add(it) }
-                    i.getValue(Post::class.java)?.name?.let { Log.i("DODANO", it) }
+                    Log.i("NAME1", i.getValue(Post::class.java)?.id.toString())
+                    Log.i("NAME2", i.getValue(Post::class.java)?.name.toString())
                 }
             }
-
             override fun onCancelled(error: DatabaseError)
             {
-                TODO("Not yet implemented")
+                Log.e("EŁROR", error.message)
             }
         })
     }
 
-    override fun showRecyclerView()
+    override fun onStart()
     {
-        binding.recyclerView.visibility = View.VISIBLE
+        super.onStart()
+        postAdapterDB.startListening()
+    }
+    override fun onStop()
+    {
+        super.onStop()
+        postAdapterDB.stopListening()
     }
 }

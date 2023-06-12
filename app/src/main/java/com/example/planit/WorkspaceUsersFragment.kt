@@ -38,7 +38,6 @@ class WorkspaceUsersFragment : Fragment() {
 
         buttonClose.setOnClickListener(View.OnClickListener {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
-            (context as PostRemoval).showRecyclerView()
         })
 
         showUsers()
@@ -75,15 +74,19 @@ class WorkspaceUsersFragment : Fragment() {
 
                 val isCreator = creatorID == mAuth.currentUser?.uid
 
-                val usersListAdapter = UsersListAdapter(requireActivity(), usersEmails, usersRoles, isCreator)
-                viewOfLayout.findViewById<ListView>(R.id.lv_users).adapter = usersListAdapter
+                if (isAdded)
+                {
+                    val usersListAdapter =
+                        UsersListAdapter(requireActivity(), usersEmails, usersRoles, isCreator)
+                    viewOfLayout.findViewById<ListView>(R.id.lv_users).adapter = usersListAdapter
 
-                if (isCreator) {
-                    viewOfLayout.findViewById<ListView>(R.id.lv_users).setOnItemClickListener(){
-                            adapterView, view, position, id ->
-                        val itemAtPos = adapterView.getItemAtPosition(position)
+                    if (isCreator) {
+                        viewOfLayout.findViewById<ListView>(R.id.lv_users)
+                            .setOnItemClickListener() { adapterView, view, position, id ->
+                                val itemAtPos = adapterView.getItemAtPosition(position)
 
-                        removeUser(workspaceID, itemAtPos.toString())
+                                removeUser(workspaceID, itemAtPos.toString())
+                            }
                     }
                 }
             }
