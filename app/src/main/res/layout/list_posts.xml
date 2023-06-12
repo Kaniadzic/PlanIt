@@ -76,8 +76,8 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_remove_user"
-            android:visibility="invisible"
+            android:id="@+id/btn_remove_post"
+            android:visibility="visible"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:text="X"

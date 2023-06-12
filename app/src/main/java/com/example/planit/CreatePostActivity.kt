@@ -18,7 +18,6 @@ class CreatePostActivity : AppCompatActivity()
 {
     lateinit var binding: ActivityCreatePostBinding
     private lateinit var databaseReference: DatabaseReference
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -46,7 +45,7 @@ class CreatePostActivity : AppCompatActivity()
             val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm")
             val current = formatter.format(time)
 
-            val newPost = Post(binding.etName.text.toString(), binding.etDate.text.toString(), current,
+            val newPost = Post(randomId(), binding.etName.text.toString(), binding.etDate.text.toString(), current,
                 binding.platformSpinner.selectedItemPosition, binding.typeSpinner.selectedItemPosition,
                 binding.etContent.text.toString())
 
@@ -83,7 +82,7 @@ class CreatePostActivity : AppCompatActivity()
 
     fun writeNewPost(newPost: Post)
     {
-        databaseReference.child(randomId()).setValue(newPost).addOnSuccessListener {
+        databaseReference.child(newPost.id.toString()).setValue(newPost).addOnSuccessListener {
             Log.i("LOGI", "SZMATA")
         }.addOnFailureListener {
             Log.i("DUPA", it.message.toString())

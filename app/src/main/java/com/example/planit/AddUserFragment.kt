@@ -62,6 +62,8 @@ class AddUserFragment : Fragment() {
 
         buttonClose.setOnClickListener(View.OnClickListener {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
+
+            (context as PostRemoval).showRecyclerView()
         })
 
         setSpinner(viewOfLayout.findViewById(R.id.sp_role))

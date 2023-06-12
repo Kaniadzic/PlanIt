@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@+id/tv_workspace_creator" />
 
     <ImageButton
@@ -130,7 +130,8 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/fragmentMenu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView">
 
         <ImageButton
             android:id="@+id/btn_workspace_tasks"

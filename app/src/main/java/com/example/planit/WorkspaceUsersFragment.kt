@@ -38,6 +38,7 @@ class WorkspaceUsersFragment : Fragment() {
 
         buttonClose.setOnClickListener(View.OnClickListener {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
+            (context as PostRemoval).showRecyclerView()
         })
 
         showUsers()

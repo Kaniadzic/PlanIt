@@ -7,13 +7,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.planit.databinding.ActivityWorkspaceDetailsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 
-class WorkspaceDetailsActivity : AppCompatActivity() {
+class WorkspaceDetailsActivity : AppCompatActivity(), PostRemoval
+{
     private lateinit var binding: ActivityWorkspaceDetailsBinding
     private lateinit var mAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
@@ -29,7 +29,7 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 1)
         binding.recyclerView.setHasFixedSize(true)
 
         workspaceData = Workspace(
@@ -76,9 +76,8 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
         })
 
         binding.btnWorkspaceTasks.setOnClickListener(View.OnClickListener {
-            binding.recyclerView.visibility = View.VISIBLE
             readAllPosts()
-            val adapter = PostAdapter(postsList)
+            val adapter = PostAdapter(postsList, workspaceData)
             binding.recyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
             Log.i("ILEWKR", postsList.size.toString())
@@ -86,6 +85,7 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
 
         binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
             showFragment(WorkspaceUsersFragment())
+            binding.recyclerView.visibility = View.GONE
         })
 
         binding.btnWorkspaceAddUser.setOnClickListener(View.OnClickListener {
@@ -121,6 +121,7 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragmentContainter, fragment)
+        binding.recyclerView.visibility = View.GONE
         fragmentTransaction.commit()
     }
 
@@ -195,7 +196,7 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
     {
         val databaseRef = FirebaseDatabase.
         getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
-        getReference("Workspaces").child("-NXe1HGF_3Bs4MrZjmeg").child("posts")
+        getReference("Workspaces").child(workspaceData.id.toString()).child("posts")
 
         databaseRef.addValueEventListener(object: ValueEventListener
         {
@@ -212,7 +213,11 @@ class WorkspaceDetailsActivity : AppCompatActivity() {
             {
                 TODO("Not yet implemented")
             }
-
         })
+    }
+
+    override fun showRecyclerView()
+    {
+        binding.recyclerView.visibility = View.VISIBLE
     }
 }
