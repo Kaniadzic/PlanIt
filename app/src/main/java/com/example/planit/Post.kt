@@ -6,7 +6,7 @@ data class Post(
     val name: String? = null,
     val date: String? = null,
     val postCreated: String? = null,
-    val platformCode: Int? = null,
-    val typeCode: Int? = null,
+    val platformCode: String? = null,
+    val typeCode: String? = null,
     val content: String? = null
 )
