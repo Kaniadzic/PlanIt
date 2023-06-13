@@ -1,14 +1,15 @@
 package com.example.planit
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.planit.databinding.ActivityWorkspaceDetailsBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +21,7 @@ class WorkspaceDetailsActivity : AppCompatActivity()
     private lateinit var mAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var query: DatabaseReference
+    private lateinit var users: DatabaseReference
     lateinit var workspaceData: Workspace
     private lateinit var postAdapterDB: PostAdapterDB
 
@@ -43,6 +45,9 @@ class WorkspaceDetailsActivity : AppCompatActivity()
         query = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
         getReference("Workspaces").child(workspaceData.id.toString()).child("posts")
 
+        users = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
+        getReference("Workspaces").child(workspaceData.id.toString()).child("users")
+
         readAllPosts()
 
         Log.i("WORKSPACEID", workspaceData.id.toString())
@@ -52,10 +57,11 @@ class WorkspaceDetailsActivity : AppCompatActivity()
 
         Log.i("ILE", options.snapshots.size.toString())
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = CustomLayoutManager(this, 1)
         binding.recyclerView.setHasFixedSize(true)
+        //binding.recyclerView.itemAnimator = null
 
-        postAdapterDB = PostAdapterDB(options, query)
+        postAdapterDB = PostAdapterDB(options, query, users)
         binding.recyclerView.adapter = postAdapterDB
 
         postAdapterDB.notifyDataSetChanged()
@@ -101,10 +107,12 @@ class WorkspaceDetailsActivity : AppCompatActivity()
 
         binding.btnWorkspaceUsers.setOnClickListener(View.OnClickListener {
             showFragment(WorkspaceUsersFragment(), R.id.fragmentWorkspaceUsers)
+            binding.recyclerView.visibility = View.GONE
         })
 
         binding.btnWorkspaceAddUser.setOnClickListener(View.OnClickListener {
             showFragment(AddUserFragment(), R.id.fragmentAddUser)
+            binding.recyclerView.visibility = View.GONE
         })
 
         binding.btnWorkspaceLeave.setOnClickListener(View.OnClickListener {
@@ -116,6 +124,22 @@ class WorkspaceDetailsActivity : AppCompatActivity()
             intent.putExtra("ID", workspaceData.id)
             startActivity(intent)
         })
+
+        val broadcastReceiver = object: BroadcastReceiver()
+        {
+            override fun onReceive(p0: Context?, p1: Intent?)
+            {
+                val action = p1?.action
+
+                if (action == "refresh_activity")
+                {
+                    finish()
+                    startActivity(intent)
+                }
+            }
+        }
+
+        registerReceiver(broadcastReceiver, IntentFilter("refresh_activity"))
 
         loadText()
         checkUserPermissions()
@@ -224,15 +248,10 @@ class WorkspaceDetailsActivity : AppCompatActivity()
             }
         })
     }
-
-    override fun onStart()
+    fun showRecyclerView()
     {
-        super.onStart()
-        postAdapterDB.startListening()
-    }
-    override fun onStop()
-    {
-        super.onStop()
-        postAdapterDB.stopListening()
+        binding.recyclerView.visibility = View.VISIBLE
     }
 }
+
+

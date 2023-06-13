@@ -62,6 +62,7 @@ class AddUserFragment : Fragment() {
 
         buttonClose.setOnClickListener(View.OnClickListener {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
+            (activity as WorkspaceDetailsActivity).showRecyclerView()
         })
 
         setSpinner(viewOfLayout.findViewById(R.id.sp_role))
@@ -131,6 +132,7 @@ class AddUserFragment : Fragment() {
             .addOnSuccessListener{
                 Toast.makeText(requireActivity().applicationContext, "Dodano użytkownika ${email} do projektu!", Toast.LENGTH_SHORT).show()
                 fragmentManager?.beginTransaction()?.remove(this)?.commit()
+                (activity as WorkspaceDetailsActivity).showRecyclerView()
             }
             .addOnFailureListener{
                 Toast.makeText(requireActivity().applicationContext, "Jebać ruch!!", Toast.LENGTH_SHORT).show()

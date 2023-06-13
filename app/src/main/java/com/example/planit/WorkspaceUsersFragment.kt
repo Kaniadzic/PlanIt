@@ -38,6 +38,7 @@ class WorkspaceUsersFragment : Fragment() {
 
         buttonClose.setOnClickListener(View.OnClickListener {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
+            (activity as WorkspaceDetailsActivity).showRecyclerView()
         })
 
         showUsers()
@@ -124,6 +125,7 @@ class WorkspaceUsersFragment : Fragment() {
                             .addOnSuccessListener {
                                 Toast.makeText(requireContext(), "Usunięto użytkownika ${email}", Toast.LENGTH_SHORT).show()
                                 fragmentManager?.beginTransaction()?.remove(this)?.commit()
+                                (activity as WorkspaceDetailsActivity).showRecyclerView()
                             }
                     }
                 }
