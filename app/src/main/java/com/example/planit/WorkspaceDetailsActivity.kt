@@ -58,8 +58,6 @@ class WorkspaceDetailsActivity : AppCompatActivity()
         Log.i("ILE", options.snapshots.size.toString())
 
         binding.recyclerView.layoutManager = CustomLayoutManager(this, 1)
-        binding.recyclerView.setHasFixedSize(true)
-        //binding.recyclerView.itemAnimator = null
 
         postAdapterDB = PostAdapterDB(options, query, users)
         binding.recyclerView.adapter = postAdapterDB
