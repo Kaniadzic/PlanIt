@@ -3,8 +3,6 @@ package com.example.planit
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,13 +10,11 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.get
 import com.bumptech.glide.Glide
 import com.example.planit.databinding.ActivityCreatePostBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -87,15 +83,15 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
                     binding.imageView2.visibility = View.VISIBLE
 
                     val params = binding.btnPublish.layoutParams as ConstraintLayout.LayoutParams
-                    params.bottomToBottom = binding.imageView2.id
+                    params.bottomToTop = binding.imageView2.id
                 }
                 else
                 {
                     binding.tvAdd.visibility = View.GONE
                     binding.imageView2.visibility = View.GONE
 
-                    val params = binding.btnPublish.layoutParams as ConstraintLayout.LayoutParams
-                    params.bottomToBottom = binding.etContent.id
+                    val params2 = binding.btnPublish.layoutParams as ConstraintLayout.LayoutParams
+                    params2.bottomToTop = binding.etContent.id
                 }
             }
 

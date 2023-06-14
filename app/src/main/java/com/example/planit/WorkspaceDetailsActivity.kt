@@ -1,9 +1,6 @@
 package com.example.planit
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -58,8 +55,9 @@ class WorkspaceDetailsActivity : AppCompatActivity()
         Log.i("ILE", options.snapshots.size.toString())
 
         binding.recyclerView.layoutManager = CustomLayoutManager(this, 1)
+        binding.recyclerView.isNestedScrollingEnabled = false;
 
-        postAdapterDB = PostAdapterDB(options, query, users)
+        postAdapterDB = PostAdapterDB(options, query, users, workspaceData.id.toString())
         binding.recyclerView.adapter = postAdapterDB
 
         postAdapterDB.notifyDataSetChanged()
@@ -95,7 +93,7 @@ class WorkspaceDetailsActivity : AppCompatActivity()
                     startActivity(Intent(applicationContext, WorkspacesActivity::class.java))
                 }
                 .addOnFailureListener{
-                    Toast.makeText(this, "Jebać ruch!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Bląd podczas usuwania!!", Toast.LENGTH_SHORT).show()
                 }
         })
 

@@ -14,13 +14,13 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.ktx.Firebase
 
-class PostAdapterDB(options: FirebaseRecyclerOptions<Post>, query: DatabaseReference, users: DatabaseReference)
+class PostAdapterDB(options: FirebaseRecyclerOptions<Post>, query: DatabaseReference, users: DatabaseReference, workspaceId: String)
     : FirebaseRecyclerAdapter<Post, PostAdapterDB.PostViewHolder>(options)
 {
     var db = query
     var user = users
+    var wid = workspaceId
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder
     {
@@ -71,6 +71,7 @@ class PostAdapterDB(options: FirebaseRecyclerOptions<Post>, query: DatabaseRefer
         holder.itemView.setOnClickListener(View.OnClickListener {
             val intent = Intent(holder.itemView.context, UpdatePostActivity::class.java)
             intent.putExtra("POST", model)
+            intent.putExtra("WORKSPACEID", wid)
             holder.itemView.context.startActivity(intent)
         })
 

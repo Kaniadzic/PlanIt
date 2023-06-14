@@ -11,9 +11,11 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.constraintlayout.widget.ConstraintLayout
+import coil.imageLoader
 import com.bumptech.glide.Glide
 import com.example.planit.databinding.ActivityCreatePostBinding
 import com.example.planit.databinding.ActivityUpdatePostBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
@@ -23,10 +25,11 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 {
     lateinit var binding: ActivityUpdatePostBinding
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var users: DatabaseReference
+    private lateinit var user: DatabaseReference
     private val SELECT_PICTURE = 200
     private val calendar = Calendar.getInstance()
     private val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm")
+    var photoUrl: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -37,9 +40,16 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         setContentView(binding.root)
 
         databaseReference = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
-            getReference("Workspaces").child("-NXivOgjOsXbwGFjtY99").child("posts")
+            getReference("Workspaces").child(intent.getStringExtra("WORKSPACEID").toString()).child("posts")
+
+        user = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
+        getReference("Workspaces").child(intent.getStringExtra("WORKSPACEID").toString()).child("users")
+
+        Log.i("WORKSPACEID", intent.getStringExtra("WORKSPACEID").toString())
 
         val post = intent.getSerializableExtra("POST") as? Post
+
+        usersFun()
 
         var adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(this, R.array.platforms_array, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -49,7 +59,7 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
         var adapter2: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(this, R.array.types_array, android.R.layout.simple_spinner_item)
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.typeSpinner.adapter = adapter
+        binding.typeSpinner.adapter = adapter2
 
         var position2 = adapter2.getPosition(post?.typeCode)
 
@@ -75,8 +85,8 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
                 binding.tvAdd.visibility = View.GONE
                 binding.imageView2.visibility = View.GONE
 
-                val params = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
-                params.bottomToBottom = binding.etContent.id
+                val params2 = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
+                params2.bottomToBottom = binding.etContent.id
             }
         }
 
@@ -86,7 +96,7 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
                 calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
         })
 
-        binding.imageView2.setOnClickListener(View.OnClickListener {
+        binding.tvAdd.setOnClickListener(View.OnClickListener {
             imageChooser()
         })
 
@@ -96,11 +106,34 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
             val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm")
             val current = formatter.format(time)
 
-            val newPost = Post(post?.id, binding.etName.text.toString(), dateToPost, current,
-                binding.platformSpinner.selectedItem.toString(), binding.typeSpinner.selectedItem.toString(),
-                binding.etContent.text.toString())
+            var photo = photoUrl
+            var date = ""
+
+            if (photoUrl.isEmpty())
+            {
+                if (post != null)
+                {
+                    photo = post.photoUrl.toString()
+                }
+            }
+
+            if (date.isEmpty())
+            {
+                if (post != null)
+                {
+                    date = post.date.toString()
+                }
+            }
+            else
+            {
+                date = dateToPost
+            }
+
+            val newPost = Post(post?.id, binding.etName.text.toString(), date, current, binding.platformSpinner.selectedItem.toString(),
+                binding.typeSpinner.selectedItem.toString(), binding.etContent.text.toString(), photo)
 
             writeNewPost(newPost)
+
             finish()
         })
     }
@@ -152,8 +185,30 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
                 if (selectedImageUri != null)
                 {
+                    photoUrl = selectedImageUri.toString()
                     Log.i("URL", selectedImageUri.toString())
                     Glide.with(this).load(selectedImageUri.toString()).into(binding.imageView2)
+                }
+            }
+        }
+    }
+    fun usersFun()
+    {
+        user.get().addOnSuccessListener {
+            for (i in it.children)
+            {
+                if (i.getValue(WorkspaceUser::class.java)?.email == FirebaseAuth.getInstance().currentUser?.email)
+                {
+                    if (i.getValue(WorkspaceUser::class.java)?.role == "Użytkownik")
+                    {
+                        binding.etContent.isFocusable = false
+                        binding.etContent.hint = "Edytowanie treści dostępne jest tylko dla redaktorów i twórców"
+                        binding.tvAdd.visibility = View.GONE
+                        binding.imageView2.visibility = View.GONE
+
+                        val params = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
+                        params.bottomToBottom = binding.etContent.id
+                    }
                 }
             }
         }
