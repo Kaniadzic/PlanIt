@@ -1,12 +1,15 @@
 package com.example.planit
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +41,16 @@ class PostAdapterDB(options: FirebaseRecyclerOptions<Post>, query: DatabaseRefer
         holder.tv_type.text = model.typeCode.toString()
         holder.tv_content.text = model.content
 
+        if (model.photoUrl?.isNotEmpty() == true)
+        {
+            holder.image.visibility = View.VISIBLE
+            Glide.with(holder.itemView.context).load(model.photoUrl).into(holder.image)
+        }
+        else
+        {
+            holder.image.visibility = View.INVISIBLE
+        }
+
         user.get().addOnSuccessListener {
             for (i in it.children)
             {
@@ -55,6 +68,12 @@ class PostAdapterDB(options: FirebaseRecyclerOptions<Post>, query: DatabaseRefer
             }
         }
 
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(holder.itemView.context, UpdatePostActivity::class.java)
+            intent.putExtra("POST", model)
+            holder.itemView.context.startActivity(intent)
+        })
+
         holder.removePost.setOnClickListener(View.OnClickListener
         {
             db.child(model.id.toString()).removeValue()
@@ -69,6 +88,7 @@ class PostAdapterDB(options: FirebaseRecyclerOptions<Post>, query: DatabaseRefer
         var tv_platform = itemView.findViewById<TextView>(R.id.tv_post_platform)
         var tv_type = itemView.findViewById<TextView>(R.id.tv_post_type)
         var tv_content = itemView.findViewById<TextView>(R.id.tv_post_content)
+        var image = itemView.findViewById<ImageView>(R.id.image)
         var removePost = itemView.findViewById<Button>(R.id.btn_remove_post)
     }
 }

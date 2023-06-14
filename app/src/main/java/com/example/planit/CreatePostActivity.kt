@@ -3,6 +3,7 @@ package com.example.planit
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import com.bumptech.glide.Glide
 import com.example.planit.databinding.ActivityCreatePostBinding
@@ -29,6 +31,7 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     private val SELECT_PICTURE = 200
     private val calendar = Calendar.getInstance()
     private val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm")
+    var photoUrl: String = ""
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -64,7 +67,7 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
             val newPost = Post(randomId(), binding.etName.text.toString(), dateToPost, current,
                 binding.platformSpinner.selectedItem.toString(), binding.typeSpinner.selectedItem.toString(),
-                binding.etContent.text.toString())
+                binding.etContent.text.toString(), photoUrl)
 
             writeNewPost(newPost)
             finish()
@@ -73,24 +76,26 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         binding.etDate.setText(intent.getStringExtra("DATA"))
         usersFun()
 
-
-
         binding.typeSpinner.onItemSelectedListener = object: OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
             {
                 Log.i("WYBOR", binding.typeSpinner.selectedItemPosition.toString())
 
-                if (binding.typeSpinner.selectedItemPosition == 1)
+                if (binding.typeSpinner.selectedItemPosition == 1)  //1 czyli "Grafika"
                 {
                     binding.tvAdd.visibility = View.VISIBLE
                     binding.imageView2.visibility = View.VISIBLE
-                    binding.etContent.visibility = View.GONE
+
+                    val params = binding.btnPublish.layoutParams as ConstraintLayout.LayoutParams
+                    params.bottomToBottom = binding.imageView2.id
                 }
                 else
                 {
                     binding.tvAdd.visibility = View.GONE
                     binding.imageView2.visibility = View.GONE
-                    binding.etContent.visibility = View.VISIBLE
+
+                    val params = binding.btnPublish.layoutParams as ConstraintLayout.LayoutParams
+                    params.bottomToBottom = binding.etContent.id
                 }
             }
 
@@ -193,6 +198,7 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
                 if (selectedImageUri != null)
                 {
+                    photoUrl = selectedImageUri.toString()
                     Log.i("URL", selectedImageUri.toString())
                     Glide.with(this).load(selectedImageUri.toString()).into(binding.imageView2)
                 }

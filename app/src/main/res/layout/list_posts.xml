@@ -73,6 +73,13 @@
                 android:text="Zawartosć"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
+
         </LinearLayout>
 
         <Button

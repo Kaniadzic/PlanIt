@@ -8,5 +8,6 @@ data class Post(
     val postCreated: String? = null,
     val platformCode: String? = null,
     val typeCode: String? = null,
-    val content: String? = null
-)
+    val content: String? = null,
+    val photoUrl: String? = null
+): java.io.Serializable
