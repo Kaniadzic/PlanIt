@@ -88,12 +88,11 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="52dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_post_add" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_workspace_creator" />
 
     <ImageButton
         android:id="@+id/btn_workspace_edit"
