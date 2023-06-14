@@ -3,28 +3,30 @@ package com.example.planit
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.Spinner
-import android.widget.TimePicker
-import androidx.fragment.app.Fragment
+import android.widget.*
+import android.widget.AdapterView.OnItemSelectedListener
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import com.bumptech.glide.Glide
 import com.example.planit.databinding.ActivityCreatePostBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
     lateinit var binding: ActivityCreatePostBinding
     private lateinit var databaseReference: DatabaseReference
     private lateinit var users: DatabaseReference
-
+    private val SELECT_PICTURE = 200
     private val calendar = Calendar.getInstance()
     private val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm")
     override fun onCreate(savedInstanceState: Bundle?)
@@ -70,6 +72,38 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
         binding.etDate.setText(intent.getStringExtra("DATA"))
         usersFun()
+
+
+
+        binding.typeSpinner.onItemSelectedListener = object: OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
+            {
+                Log.i("WYBOR", binding.typeSpinner.selectedItemPosition.toString())
+
+                if (binding.typeSpinner.selectedItemPosition == 1)
+                {
+                    binding.tvAdd.visibility = View.VISIBLE
+                    binding.imageView2.visibility = View.VISIBLE
+                    binding.etContent.visibility = View.GONE
+                }
+                else
+                {
+                    binding.tvAdd.visibility = View.GONE
+                    binding.imageView2.visibility = View.GONE
+                    binding.etContent.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?)
+            {
+                TODO("Not yet implemented")
+            }
+
+        }
+
+        binding.tvAdd.setOnClickListener(View.OnClickListener {
+            imageChooser()
+        })
     }
     fun setSpinner(spinner: Spinner, array: Int)
     {
@@ -136,5 +170,33 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
         }
 
         binding.etDate.setText(formatter.format(calendar.timeInMillis))
+    }
+
+    private fun imageChooser()
+    {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(Intent.createChooser(intent, "SelectPicture"), SELECT_PICTURE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK)
+        {
+            if (requestCode == SELECT_PICTURE)
+            {
+                val selectedImageUri = data?.data
+
+                if (selectedImageUri != null)
+                {
+                    Log.i("URL", selectedImageUri.toString())
+                    Glide.with(this).load(selectedImageUri.toString()).into(binding.imageView2)
+                }
+            }
+        }
     }
 }
