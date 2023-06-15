@@ -60,7 +60,7 @@ class EditActivity : AppCompatActivity()
                 binding.roleSpinner.selectedItemPosition
             )
 
-            Log.i("DZIALA", "DJHHFKJFU")
+            Log.i("DZIALA", "DZIALAJACA FUNKCJA")
             finish()
         })
 
@@ -147,9 +147,9 @@ class EditActivity : AppCompatActivity()
         )
 
         databaseReference.setValue(user).addOnSuccessListener {
-            Log.i("LOGI", "SZMATA")
+            Log.i("LOGI", "DZIALA")
         }.addOnFailureListener {
-            Log.i("DUPA", it.message.toString())
+            Log.i("BŁĄD", it.message.toString())
         }
     }
 

@@ -106,7 +106,7 @@ class WorkspacesActivity : AppCompatActivity() {
                 Toast.makeText(this, "Sukces!", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener{
-                Toast.makeText(this, "Jebać ruch!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "WYstąpił błąd!", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -133,19 +133,19 @@ class WorkspacesActivity : AppCompatActivity() {
                 dataSnapshot = it
 
                 dataSnapshot.children.forEach{
-                    var dupa = it.getValue(WorkspaceWithUsers::class.java)
+                    var workspaceWithUsers = it.getValue(WorkspaceWithUsers::class.java)
 
-                    if (dupa?.users?.values != null) {
-                        val test = ArrayList(dupa?.users?.values)
+                    if (workspaceWithUsers?.users?.values != null) {
+                        val test = ArrayList(workspaceWithUsers?.users?.values)
 
                         for(user in test) {
                             if (user.email.toString() == email.toString()) {
                                 val ws = Workspace(
-                                    dupa.id,
-                                    dupa.name,
-                                    dupa.creationDate,
-                                    dupa.creatorId,
-                                    dupa.type
+                                    workspaceWithUsers.id,
+                                    workspaceWithUsers.name,
+                                    workspaceWithUsers.creationDate,
+                                    workspaceWithUsers.creatorId,
+                                    workspaceWithUsers.type
                                 )
 
                                 workspacesListAsUser.add(ws)

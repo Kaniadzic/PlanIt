@@ -89,7 +89,7 @@ class PasswordChangeFragment : Fragment()
                                 }
                                 else
                                 {
-                                    Toast.makeText(context, "Zle haslo debilu!", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Zle haslo!", Toast.LENGTH_SHORT).show()
                                     Log.w("ERROR", task.exception)
                                 }
                             }
@@ -97,7 +97,7 @@ class PasswordChangeFragment : Fragment()
                         else
                         {
                             Toast.makeText(context, "FAIL!", Toast.LENGTH_SHORT).show()
-                            Log.w("Zle haslo debilu", task.exception)
+                            Log.w("Zle haslo!", task.exception)
                         }
                     }
                 }
@@ -108,7 +108,7 @@ class PasswordChangeFragment : Fragment()
         {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
             (activity as EditActivity).show()
-            Log.i("DUPA", "dupa")
+            Log.i("ZAMKNIETO", "FRAGMENT")
         })
 
         return viewOfLayout

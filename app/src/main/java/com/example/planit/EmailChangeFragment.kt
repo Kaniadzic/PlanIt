@@ -83,7 +83,7 @@ class EmailChangeFragment : Fragment()
         {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
             (activity as EditActivity).show()
-            Log.i("DUPA", "dupa")
+            Log.i("STAN FRAGMENTU", "ZAMKNIETY")
         })
 
         return viewOfLayout

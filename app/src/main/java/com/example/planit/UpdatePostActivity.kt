@@ -141,9 +141,9 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     fun writeNewPost(newPost: Post)
     {
         databaseReference.child(newPost.id.toString()).setValue(newPost).addOnSuccessListener {
-            Log.i("LOGI", "SZMATA")
+            Log.i("LOGI", "DZIALA")
         }.addOnFailureListener {
-            Log.i("DUPA", it.message.toString())
+            Log.i("ERROR", it.message.toString())
         }
     }
 

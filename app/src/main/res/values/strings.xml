@@ -59,21 +59,22 @@
         <item>USA</item>
         <item>Brazylia</item>
         <item>Japonia</item>
-        <item>Zanzibar to nie kraj debilko</item>
+        <item>Kanada</item>
+        <item>Finlandia</item>
+        <item>Hiszpania</item>
     </string-array>
 
     <string-array name="roles_array">
         <item>Manager</item>
         <item>Helper</item>
         <item>Wolontariusz</item>
-        <item>Szarl Leklerk</item>
     </string-array>
 
     <string-array name="platforms_array">
         <item>Facebook</item>
         <item>Instagram</item>
-        <item>OnlySimps</item>
-        <item>DontWatchPornHub</item>
+        <item>Twitter</item>
+        <item>LinkedIn</item>
     </string-array>
 
     <string-array name="types_array">

@@ -85,7 +85,7 @@ class AddWorkspaceActivity : AppCompatActivity() {
                     startActivity(Intent(applicationContext, WorkspacesActivity::class.java))
                 }
                 .addOnFailureListener{
-                    Toast.makeText(this, "Jebać ruch!!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Wystąpił błąd!!", Toast.LENGTH_SHORT).show()
                 }
         }
     }

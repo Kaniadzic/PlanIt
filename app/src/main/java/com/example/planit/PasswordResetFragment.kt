@@ -59,12 +59,12 @@ class PasswordResetFragment: Fragment()
                 Toast.makeText(activity, "Wysłano link resetujący na podany adres email!", Toast.LENGTH_SHORT).show()
             }
             else
-                Toast.makeText(activity, "Wpisz email kretynie bez szkoły!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Proszę wpisac email!", Toast.LENGTH_SHORT).show()
         })
 
         buttonClose.setOnClickListener(View.OnClickListener {
             fragmentManager?.beginTransaction()?.remove(this)?.commit()
-            Log.i("DUPA", "dupa")
+            Log.i("ZAMKNIETO", "FRAGMENT")
         })
 
         return viewOfLayout

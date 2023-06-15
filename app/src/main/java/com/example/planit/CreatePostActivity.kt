@@ -3,6 +3,7 @@ package com.example.planit
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -123,9 +124,9 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
     fun writeNewPost(newPost: Post)
     {
         databaseReference.child(newPost.id.toString()).setValue(newPost).addOnSuccessListener {
-            Log.i("LOGI", "SZMATA")
+            Log.i("LOG1", "DZIALA")
         }.addOnFailureListener {
-            Log.i("DUPA", it.message.toString())
+            Log.e("LOG2", it.message.toString())
         }
     }
     fun randomId(): String
@@ -152,6 +153,7 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
                 {
                     binding.etContent.isFocusable = false
                     binding.etContent.hint = "Edytowanie treści dostępne jest tylko dla redaktorów i twórców"
+                    binding.tvAdd.visibility = View.GONE
                 }
             }
         }

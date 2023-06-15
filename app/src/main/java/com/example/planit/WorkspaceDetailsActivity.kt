@@ -7,10 +7,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.planit.databinding.ActivityWorkspaceDetailsBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+
 
 class WorkspaceDetailsActivity : AppCompatActivity()
 {
@@ -55,12 +57,10 @@ class WorkspaceDetailsActivity : AppCompatActivity()
         Log.i("ILE", options.snapshots.size.toString())
 
         binding.recyclerView.layoutManager = CustomLayoutManager(this, 1)
-        binding.recyclerView.isNestedScrollingEnabled = false;
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         postAdapterDB = PostAdapterDB(options, query, users, workspaceData.id.toString())
         binding.recyclerView.adapter = postAdapterDB
-
-        postAdapterDB.notifyDataSetChanged()
 
         binding.btnMenuLogout.setOnClickListener(View.OnClickListener {
             mAuth.signOut()
@@ -231,6 +231,12 @@ class WorkspaceDetailsActivity : AppCompatActivity()
     fun showRecyclerView()
     {
         binding.recyclerView.visibility = View.VISIBLE
+    }
+
+    override fun onResume()
+    {
+        super.onResume()
+        postAdapterDB.notifyDataSetChanged()
     }
 }
 
