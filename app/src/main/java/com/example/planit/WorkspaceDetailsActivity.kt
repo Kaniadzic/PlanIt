@@ -2,6 +2,7 @@ package com.example.planit
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.Intents.Insert.ACTION
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -23,6 +24,8 @@ class WorkspaceDetailsActivity : AppCompatActivity()
     private lateinit var users: DatabaseReference
     lateinit var workspaceData: Workspace
     private lateinit var postAdapterDB: PostAdapterDB
+    val GALLERY_INTENT_CALLED = 1
+    val GALLERY_KITKAT_INTENT_CALLED = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,8 @@ class WorkspaceDetailsActivity : AppCompatActivity()
         setContentView(binding.root)
 
         mAuth = FirebaseAuth.getInstance()
+
+        val getIntent = Intent(Intent.ACTION_OPEN_DOCUMENT)
 
         workspaceData = Workspace(
             intent.getStringExtra("ID"),

@@ -167,6 +167,8 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
             finish()
         })
+
+        //dane powinny zniknac bo kosmetyka
     }
 
     fun writeNewPost(newPost: Post)
@@ -197,7 +199,7 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
     private fun imageChooser()
     {
-        val intent = Intent()
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
 
@@ -232,7 +234,6 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
                 {
                     if (i.getValue(WorkspaceUser::class.java)?.role == "Użytkownik")
                     {
-                        binding.etContent.isFocusable = false
                         binding.etContent.hint = "Edytowanie treści dostępne jest tylko dla redaktorów i twórców"
                         binding.tvAdd.visibility = View.GONE
                         binding.imageView2.visibility = View.GONE

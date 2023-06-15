@@ -71,19 +71,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btn_post_add"
-        android:layout_width="70dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="4dp"
-        android:backgroundTint="@color/planit_purple"
-        android:scaleType="centerCrop"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btn_workspace_leave"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.133" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -97,13 +84,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_workspace_creator" />
 
     <ImageButton
-        android:id="@+id/btn_workspace_edit"
-        android:visibility="invisible"
+        android:id="@+id/btn_post_add"
+        android:visibility="visible"
         android:layout_width="70dp"
         android:layout_height="64dp"
         android:backgroundTint="@color/planit_purple"
         android:scaleType="centerCrop"
-        android:src="@drawable/settings_white"
+        android:src="@drawable/post_add"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/tv_workspace_type"
         app:layout_constraintEnd_toEndOf="parent"

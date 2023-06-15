@@ -177,7 +177,7 @@ class CreatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
     private fun imageChooser()
     {
-        val intent = Intent()
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
 
