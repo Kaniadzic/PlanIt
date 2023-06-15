@@ -44,6 +44,8 @@ class WorkspaceDetailsActivity : AppCompatActivity()
         query = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
         getReference("Workspaces").child(workspaceData.id.toString()).child("posts")
 
+        var sorted = query.orderByChild("date")
+
         users = FirebaseDatabase.getInstance("https://planit-79310-default-rtdb.europe-west1.firebasedatabase.app/").
         getReference("Workspaces").child(workspaceData.id.toString()).child("users")
 
@@ -52,7 +54,7 @@ class WorkspaceDetailsActivity : AppCompatActivity()
         Log.i("WORKSPACEID", workspaceData.id.toString())
 
         val options: FirebaseRecyclerOptions<Post> = FirebaseRecyclerOptions.Builder<Post>().
-        setQuery(query, Post::class.java).setLifecycleOwner(this).build()
+        setQuery(sorted, Post::class.java).setLifecycleOwner(this).build()
 
         Log.i("ILE", options.snapshots.size.toString())
 

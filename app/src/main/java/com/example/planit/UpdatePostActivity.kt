@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TimePicker
@@ -87,6 +88,36 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
                 val params2 = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
                 params2.bottomToBottom = binding.etContent.id
+            }
+        }
+
+        binding.typeSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.i("WYBOR", binding.typeSpinner.selectedItemPosition.toString())
+
+                if (binding.typeSpinner.selectedItemPosition == 1)  //1 czyli "Grafika"
+                {
+                    binding.tvAdd.visibility = View.VISIBLE
+                    binding.imageView2.visibility = View.VISIBLE
+
+                    val params = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
+                    params.bottomToTop = binding.imageView2.id
+                } else {
+                    binding.tvAdd.visibility = View.GONE
+                    binding.imageView2.visibility = View.GONE
+
+                    val params2 = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
+                    params2.bottomToTop = binding.etContent.id
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
             }
         }
 
@@ -208,6 +239,13 @@ class UpdatePostActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListen
 
                         val params = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
                         params.bottomToBottom = binding.etContent.id
+                    }
+                    else
+                    {
+                        binding.tvAdd.visibility = View.VISIBLE
+                        binding.imageView2.visibility = View.VISIBLE
+                        val params = binding.btnUpdate.layoutParams as ConstraintLayout.LayoutParams
+                        params.bottomToBottom = binding.imageView2.id
                     }
                 }
             }
